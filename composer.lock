@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b848a0b343f8e4444d62229c471d342",
+    "content-hash": "42dc003fda07bc6962f8a5fc957a2f1a",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -4999,6 +4999,75 @@
                 }
             ],
             "time": "2025-09-19T15:18:50+00:00"
+        },
+        {
+            "name": "pxlrbt/laravel-database-state",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pxlrbt/laravel-database-state.git",
+                "reference": "ef763b042400a738f1b621522601565df4596f47"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pxlrbt/laravel-database-state/zipball/ef763b042400a738f1b621522601565df4596f47",
+                "reference": "ef763b042400a738f1b621522601565df4596f47",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.13.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^6.0",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^7.0",
+                "pestphp/pest": "^1.21",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "pxlrbt\\LaravelDatabaseState\\DatabaseStateServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "pxlrbt\\LaravelDatabaseState\\": "src",
+                    "pxlrbt\\LaravelDatabaseState\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dennis Koch",
+                    "email": "info@pixelarbeit.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Seed critical state for your production DBs.",
+            "homepage": "https://github.com/pxlrbt/laravel-database-state",
+            "keywords": [
+                "db",
+                "pxlrbt",
+                "seed"
+            ],
+            "support": {
+                "issues": "https://github.com/pxlrbt/laravel-database-state/issues",
+                "source": "https://github.com/pxlrbt/laravel-database-state/tree/v1.0.6"
+            },
+            "time": "2025-09-19T16:35:21+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
