@@ -1,0 +1,27 @@
+name: Sentry Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  setry_release:
+    name: Create Sentry release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: pixelarbeit
+          SENTRY_PROJECT: alpinschule
+        with:
+          environment: production
+          version: ${{ github.ref }}
+

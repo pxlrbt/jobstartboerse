@@ -1,0 +1,75 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.php'
+      - '.github/**.yml'
+  pull_request:
+    paths:
+      - '**.php'
+      - '.github/**.yml'
+
+jobs:
+  tests:
+    name: Pest
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_DATABASE: mysql
+      DB_USERNAME: root
+      DB_PASSWORD: root
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: mysql
+          MYSQL_PASSWORD: mysql
+          MYSQL_DATABASE: mysql
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: "--optimize-autoloader --prefer-dist"
+          ignore-cache: true
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH_JSON }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Laravel Setup
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          npm i
+          npm run build
+
+      - name: Execute tests
+        run: vendor/bin/pest --parallel
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
