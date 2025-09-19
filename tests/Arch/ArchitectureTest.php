@@ -2,17 +2,9 @@
 
 use Illuminate\Support\ServiceProvider;
 
-arch('no debugging functions')
-    ->expect('App')
-    ->not->toUse(['die', 'dd', 'dump', 'var_dump', 'print_r']);
+arch()->preset()->php();
 
-arch('no globals')
-    ->expect('App')
-    ->not->toUse(['$_GET', '$_POST', '$_SESSION', '$_COOKIE', 'global']);
-
-arch('security')
-    ->expect('App')
-    ->not->toUse(['eval', 'exec', 'shell_exec', 'system', 'passthru']);
+arch()->preset()->security();
 
 arch('controllers')
     ->expect('App\Http\Controllers')
