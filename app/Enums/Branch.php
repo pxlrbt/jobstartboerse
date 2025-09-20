@@ -3,7 +3,6 @@
 namespace App\Enums;
 
 use Filament\Support\Contracts\HasLabel;
-use Illuminate\Contracts\Support\Htmlable;
 
 enum Branch: int implements HasLabel
 {
@@ -21,7 +20,7 @@ enum Branch: int implements HasLabel
     case Logistics = 12;
     case PublicSector = 13;
 
-    public function getLabel(): string|Htmlable|null
+    public function getLabel(): string
     {
         return match ($this) {
             self::General => 'Allgemeine Dienstleistungen',

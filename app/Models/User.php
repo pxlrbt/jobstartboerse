@@ -36,9 +36,7 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * @return array{email_verified_at: string, password: string}
      */
     protected function casts(): array
     {

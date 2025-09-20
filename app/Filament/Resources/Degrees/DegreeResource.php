@@ -84,6 +84,9 @@ class DegreeResource extends Resource
         ];
     }
 
+    /**
+     * @return Builder<Degree>
+     */
     public static function getRecordRouteBindingEloquentQuery(): Builder
     {
         return parent::getRecordRouteBindingEloquentQuery()

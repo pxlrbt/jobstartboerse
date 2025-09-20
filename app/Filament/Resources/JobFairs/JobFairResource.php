@@ -54,6 +54,9 @@ class JobFairResource extends Resource
         ];
     }
 
+    /**
+     * @return Builder<JobFair>
+     */
     public static function getRecordRouteBindingEloquentQuery(): Builder
     {
         return parent::getRecordRouteBindingEloquentQuery()

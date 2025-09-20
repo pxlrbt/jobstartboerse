@@ -111,6 +111,9 @@ class ProfessionResource extends Resource
         ];
     }
 
+    /**
+     * @return Builder<Profession>
+     */
     public static function getRecordRouteBindingEloquentQuery(): Builder
     {
         return parent::getRecordRouteBindingEloquentQuery()

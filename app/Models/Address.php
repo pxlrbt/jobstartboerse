@@ -14,6 +14,9 @@ class Address extends Model
      */
     use HasFactory;
 
+    /**
+     * @return BelongsTo<Exhibitor, $this>
+     */
     public function exhibitor(): BelongsTo
     {
         return $this->belongsTo(Exhibitor::class);

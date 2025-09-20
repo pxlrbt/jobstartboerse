@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\DataObjects\Attachment;
+use Database\Factories\JobFairFactory;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,11 +14,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JobFair extends Model
 {
-    /** @use HasFactory<\Database\Factories\JobFairFactory> */
+    /** @use HasFactory<JobFairFactory> */
     use HasFactory;
 
     use SoftDeletes;
 
+    /**
+     * @return array{
+     *     attachments: 'AsCollection::of(Attachment::class)',
+     *     lounge_files_students: 'array',
+     *     lounge_files_exhibitors: 'array'
+     * }
+     */
     protected function casts(): array
     {
         return [
@@ -27,6 +35,9 @@ class JobFair extends Model
         ];
     }
 
+    /**
+     * @return Attribute<non-falsy-string,never>
+     */
     protected function displayName(): Attribute
     {
         return Attribute::get(
@@ -34,11 +45,17 @@ class JobFair extends Model
         );
     }
 
+    /**
+     * @return HasMany<JobFairDate,$this>
+     */
     public function dates(): HasMany
     {
         return $this->hasMany(JobFairDate::class);
     }
 
+    /**
+     * @return BelongsToMany<Location,$this>
+     */
     public function locations(): BelongsToMany
     {
         return $this->belongsToMany(Location::class);

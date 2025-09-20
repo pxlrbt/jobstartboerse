@@ -2,14 +2,12 @@
 
 namespace App\Enums;
 
-use Illuminate\Contracts\Support\Htmlable;
-
 enum AttachmentCategory: int
 {
     case Visitors = 1;
     case Exhibitors = 2;
 
-    public function getLabel(): string|Htmlable|null
+    public function getLabel(): string
     {
         return match ($this) {
             self::Visitors => 'Besucher',
@@ -17,10 +15,13 @@ enum AttachmentCategory: int
         };
     }
 
+    /**
+     * @return array<string, string>
+     */
     public static function options(): array
     {
         return collect(self::cases())
-            ->mapWithKeys(fn (AttachmentCategory $item) => [$item->value => $item->label])
+            ->mapWithKeys(fn (AttachmentCategory $item) => [$item->value => $item->getLabel()])
             ->sort()
             ->toArray();
     }

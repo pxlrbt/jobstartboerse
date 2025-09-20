@@ -15,6 +15,11 @@ class Exhibitor extends Model
      */
     use HasFactory;
 
+    /**
+     * @return array{
+     *     branch: 'App\Enums\Branch'
+     * }
+     */
     protected function casts(): array
     {
         return [
