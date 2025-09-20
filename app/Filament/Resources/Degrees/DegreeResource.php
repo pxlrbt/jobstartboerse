@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Degrees;
 
-use App\Filament\Enums\NavigationGroups;
+use App\Filament\Enums\NavigationGroup;
 use App\Filament\Resources\Degrees\Pages\ManageDegrees;
 use App\Models\Degree;
 use BackedEnum;
@@ -35,7 +35,7 @@ class DegreeResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Studiengänge';
 
-    protected static string|UnitEnum|null $navigationGroup = NavigationGroups::Data;
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Data;
 
     protected static ?string $recordTitleAttribute = 'display_name';
 
@@ -45,6 +45,7 @@ class DegreeResource extends Resource
             ->components([
                 TextInput::make('display_name')
                     ->label('Name')
+                    ->columnSpanFull()
                     ->required(),
             ]);
     }

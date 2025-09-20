@@ -5,7 +5,7 @@ namespace App\Filament\Enums;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum NavigationGroups implements HasLabel
+enum NavigationGroup implements HasLabel
 {
     case Data;
 

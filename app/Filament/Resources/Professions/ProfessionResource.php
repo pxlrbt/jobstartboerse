@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Professions;
 
-use App\Filament\Enums\NavigationGroups;
+use App\Filament\Enums\NavigationGroup;
 use App\Filament\Resources\Professions\Pages\ManageProfessions;
 use App\Models\Profession;
 use BackedEnum;
@@ -37,7 +37,7 @@ class ProfessionResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Berufe';
 
-    protected static string|UnitEnum|null $navigationGroup = NavigationGroups::Data;
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Data;
 
     protected static ?string $recordTitleAttribute = 'display_name';
 
