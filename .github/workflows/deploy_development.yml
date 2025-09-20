@@ -1,0 +1,19 @@
+name: Deploy Development
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Deploy
+        run: |
+          curl -X POST ${{ secrets.PLOI_DEV_DEPLOY_URL }}
