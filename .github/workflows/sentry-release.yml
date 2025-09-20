@@ -20,7 +20,7 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: pixelarbeit
-          SENTRY_PROJECT: alpinschule
+          SENTRY_PROJECT: jobstartboerse
         with:
           environment: production
           version: ${{ github.ref }}
