@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,10 @@ class AppServiceProvider extends ServiceProvider
             'degree' => Degree::class,
             'profession' => Profession::class,
         ]);
+
+        Password::defaults(function () {
+            return Password::min(8)->uncompromised();
+        });
 
         Filament::serving($this->bootFilament(...));
     }
