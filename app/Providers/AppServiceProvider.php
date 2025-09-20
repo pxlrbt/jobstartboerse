@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\Degree;
 use App\Models\Profession;
 use App\Models\User;
+use Filament\Facades\Filament;
+use Filament\Schemas\Components\Section;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -35,9 +37,20 @@ class AppServiceProvider extends ServiceProvider
             'profession' => Profession::class,
         ]);
 
+        Filament::serving($this->bootFilament(...));
+    }
+
+    public function bootFilament(): void
+    {
         Table::configureUsing(function (Table $table) {
             $table->defaultDateDisplayFormat('d.m.Y');
             $table->defaultDateTimeDisplayFormat('H:i');
+        });
+
+        Section::configureUsing(function (Section $section) {
+            $section
+                ->compact()
+                ->collapsible();
         });
     }
 }

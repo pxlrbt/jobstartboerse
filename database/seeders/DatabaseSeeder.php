@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Degree;
+use App\Models\Exhibitor;
 use App\Models\JobFair;
 use App\Models\JobFairDate;
 use App\Models\Location;
@@ -31,6 +32,10 @@ class DatabaseSeeder extends Seeder
             ->has(Location::factory(), 'locations')
             ->has(JobFairDate::factory(), 'dates')
             ->count(5)
+            ->create();
+
+        Exhibitor::factory()
+            ->count(10)
             ->create();
     }
 }
