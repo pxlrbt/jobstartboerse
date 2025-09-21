@@ -7,6 +7,7 @@ use Database\Factories\ExhibitorFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Exhibitor extends Model
 {
@@ -57,5 +58,21 @@ class Exhibitor extends Model
     public function billingContactPerson(): BelongsTo
     {
         return $this->belongsTo(ContactPerson::class, 'billing_contact_person_id');
+    }
+
+    /**
+     * @return BelongsToMany<Profession, $this>
+     */
+    public function professions(): BelongsToMany
+    {
+        return $this->belongsToMany(Profession::class);
+    }
+
+    /**
+     * @return BelongsToMany<Degree, $this>
+     */
+    public function degrees(): BelongsToMany
+    {
+        return $this->belongsToMany(Degree::class);
     }
 }

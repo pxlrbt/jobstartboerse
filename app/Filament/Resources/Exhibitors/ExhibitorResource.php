@@ -5,6 +5,8 @@ namespace App\Filament\Resources\Exhibitors;
 use App\Filament\Resources\Exhibitors\Pages\CreateExhibitor;
 use App\Filament\Resources\Exhibitors\Pages\EditExhibitor;
 use App\Filament\Resources\Exhibitors\Pages\ListExhibitors;
+use App\Filament\Resources\Exhibitors\RelationManagers\DegreesRelationManager;
+use App\Filament\Resources\Exhibitors\RelationManagers\ProfessionsRelationManager;
 use App\Filament\Resources\Exhibitors\Schemas\ExhibitorForm;
 use App\Filament\Resources\Exhibitors\Tables\ExhibitorsTable;
 use App\Models\Exhibitor;
@@ -39,7 +41,8 @@ class ExhibitorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProfessionsRelationManager::make(),
+            DegreesRelationManager::make(),
         ];
     }
 

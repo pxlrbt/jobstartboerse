@@ -78,5 +78,19 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::create('degree_exhibitor', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('exhibitor_id');
+            $table->foreignId('degree_id');
+            $table->timestamps();
+        });
+
+        Schema::create('exhibitor_profession', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('exhibitor_id');
+            $table->foreignId('profession_id');
+            $table->timestamps();
+        });
     }
 };

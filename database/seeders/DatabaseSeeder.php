@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
+use App\Models\ContactPerson;
 use App\Models\Degree;
 use App\Models\Exhibitor;
 use App\Models\JobFair;
@@ -43,6 +45,12 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         Exhibitor::factory()
+            ->has(Address::factory(), 'address')
+            ->has(Address::factory(), 'billingAddress')
+            ->has(ContactPerson::factory(), 'contactPerson')
+            ->has(ContactPerson::factory(), 'billingContactPerson')
+            ->has(Profession::factory()->count(5))
+            ->has(Degree::factory()->count(5))
             ->count(10)
             ->create();
     }
