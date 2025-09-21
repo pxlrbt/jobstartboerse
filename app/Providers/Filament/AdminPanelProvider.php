@@ -30,6 +30,9 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('/')
             ->login(Login::class)
+            ->brandLogo('/logo.svg')
+            ->brandName('Jobstartbörse')
+            ->favicon('/favicon.svg')
             ->passwordReset()
 
             ->colors([
