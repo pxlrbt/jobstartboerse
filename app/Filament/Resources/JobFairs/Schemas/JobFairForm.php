@@ -23,8 +23,8 @@ class JobFairForm
         return $schema
             ->components([
                 Tabs::make()->vertical()->contained(false)->columnSpanFull()->tabs([
-                    Tabs\Tab::make('Daten')->columns(3)->schema([
-                        Section::make([
+                    Tabs\Tab::make('Stammdaten')->columns(3)->schema([
+                        Section::make('Stammdaten')->schema([
                             Repeater::make('dates')
                                 ->label('Veranstaltungstage')
                                 ->minItems(1)
@@ -107,49 +107,55 @@ class JobFairForm
                     ]),
 
                     Tabs\Tab::make('Hallenplan')->schema([
-                        TextInput::make('floor_plan_link')
-                            ->label('Externer Plan')
-                            ->url()
-                            ->placeholder('https://'),
+                        Section::make('Hallenplan')->schema([
+                            TextInput::make('floor_plan_link')
+                                ->label('Externer Plan')
+                                ->url()
+                                ->placeholder('https://'),
 
-                        FileUpload::make('floor_plan_file')
-                            ->label('Upload'),
+                            FileUpload::make('floor_plan_file')
+                                ->label('Upload'),
+                        ]),
                     ]),
 
                     Tabs\Tab::make('Anhänge')->schema([
-                        Repeater::make('attachments')
-                            ->label('Anhänge')
-                            ->columns(3)
-                            ->addActionLabel('Anhang hinzufügen')
-                            ->schema([
-                                FileUpload::make('file')
-                                    ->label('Datei'),
+                        Section::make('Anhänge')->schema([
+                            Repeater::make('attachments')
+                                ->label('Anhänge')
+                                ->columns(3)
+                                ->addActionLabel('Anhang hinzufügen')
+                                ->schema([
+                                    FileUpload::make('file')
+                                        ->label('Datei'),
 
-                                TextInput::make('display_name')
-                                    ->label('Titel'),
+                                    TextInput::make('display_name')
+                                        ->label('Titel'),
 
-                                Radio::make('category')
-                                    ->label('Titel')
-                                    ->options([
-                                        1 => 'Besucher',
-                                        2 => 'Aussteller',
-                                    ]),
-                            ]),
+                                    Radio::make('category')
+                                        ->label('Titel')
+                                        ->options([
+                                            1 => 'Besucher',
+                                            2 => 'Aussteller',
+                                        ]),
+                                ]),
+                        ]),
                     ]),
 
                     Tabs\Tab::make('Job-Start-Lounge')->schema([
-                        DatePicker::make('lounge_registration_ends_at')
-                            ->label('Anmeldung endet am'),
+                        Section::make('Job-Start-Lounge')->schema([
+                            DatePicker::make('lounge_registration_ends_at')
+                                ->label('Anmeldung endet am'),
 
-                        FileUpload::make('lounge_files_students')
-                            ->label('Infos Schüler')
-                            ->multiple()
-                            ->acceptedFileTypes(['application/pdf']),
+                            FileUpload::make('lounge_files_students')
+                                ->label('Infos Schüler')
+                                ->multiple()
+                                ->acceptedFileTypes(['application/pdf']),
 
-                        FileUpload::make('lounge_files_exhibitors')
-                            ->label('Infos Aussteller')
-                            ->multiple()
-                            ->acceptedFileTypes(['application/pdf']),
+                            FileUpload::make('lounge_files_exhibitors')
+                                ->label('Infos Aussteller')
+                                ->multiple()
+                                ->acceptedFileTypes(['application/pdf']),
+                        ]),
                     ]),
 
                     Tabs\Tab::make('Schulanmeldungen')->schema([
