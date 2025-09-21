@@ -157,16 +157,7 @@ class JobFairForm
                                 ->acceptedFileTypes(['application/pdf']),
                         ]),
                     ]),
-
-                    Tabs\Tab::make('Schulanmeldungen')->schema([
-                        // RM
-                    ]),
-
-                    Tabs\Tab::make('Aussteller')->schema([
-                        // RM
-                    ]),
                 ]),
-
             ]);
     }
 }

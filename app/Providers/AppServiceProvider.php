@@ -6,6 +6,7 @@ use App\Models\Degree;
 use App\Models\Profession;
 use App\Models\User;
 use Filament\Facades\Filament;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -56,6 +57,10 @@ class AppServiceProvider extends ServiceProvider
             $section
                 ->compact()
                 ->collapsible();
+        });
+
+        TextInput::configureUsing(function (TextInput $input) {
+            $input->maxLength(255);
         });
     }
 }

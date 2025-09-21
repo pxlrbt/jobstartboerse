@@ -10,6 +10,7 @@ use App\Models\JobFair;
 use App\Models\JobFairDate;
 use App\Models\Location;
 use App\Models\Profession;
+use App\Models\SchoolRegistration;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -41,6 +42,7 @@ class DatabaseSeeder extends Seeder
         JobFair::factory()
             ->has(Location::factory(), 'locations')
             ->has(JobFairDate::factory(), 'dates')
+            ->has(SchoolRegistration::factory()->count(2))
             ->count(5)
             ->create();
 
@@ -51,6 +53,7 @@ class DatabaseSeeder extends Seeder
             ->has(ContactPerson::factory(), 'billingContactPerson')
             ->has(Profession::factory()->count(5))
             ->has(Degree::factory()->count(5))
+
             ->count(10)
             ->create();
     }

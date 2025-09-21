@@ -11,6 +11,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -59,6 +60,19 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->plugin(EnvironmentIndicatorPlugin::make());
+            ->plugin(EnvironmentIndicatorPlugin::make())
+            ->renderHook(
+                PanelsRenderHook::BODY_END,
+                fn () => <<<'HTML'
+                    <style>
+                        .fi-sc-tabs.fi-vertical {
+                            align-items: start;
+                        }
+
+                        .fi-tabs:not(.fi-contained) {
+                            margin-inline: 0;
+                        }
+                    </style>
+                HTML);
     }
 }

@@ -60,9 +60,9 @@ class JobFair extends Model
     {
         return $this->belongsToMany(Location::class);
     }
-    //
-    // public function exhibitors(): BelongsToMany
-    // {
-    //     return $this->belongsToMany();
-    // }
+
+    public function schoolRegistrations(): HasMany
+    {
+        return $this->hasMany(SchoolRegistration::class);
+    }
 }

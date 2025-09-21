@@ -60,7 +60,7 @@ class ExhibitorForm
         return $schema
             ->columns(1)
             ->components([
-                Tabs::make()->vertical(false)->contained(false)->tabs([
+                Tabs::make()->vertical()->contained(false)->tabs([
                     Tabs\Tab::make('Stammdaten')->schema([
                         Section::make('Stammdaten')->columns(2)->schema([
                             TextInput::make('display_name')

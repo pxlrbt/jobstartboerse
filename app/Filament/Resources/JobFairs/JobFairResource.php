@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\JobFairs;
 
+use App\Filament\Resources\Exhibitors\RelationManagers\SchoolRegistrationsRelationManager;
 use App\Filament\Resources\JobFairs\Pages\CreateJobFair;
 use App\Filament\Resources\JobFairs\Pages\EditJobFair;
 use App\Filament\Resources\JobFairs\Pages\ListJobFairs;
@@ -41,7 +42,7 @@ class JobFairResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SchoolRegistrationsRelationManager::make(),
         ];
     }
 
