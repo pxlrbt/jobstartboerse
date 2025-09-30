@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Exhibitors\Schemas;
 
 use App\Enums\Branch;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -113,6 +114,24 @@ class ExhibitorForm
                                 FileUpload::make('logo_file')
                                     ->label('Logo')
                                     ->acceptedFileTypes(['image/*']),
+                            ]),
+                    ]),
+
+                    Tabs\Tab::make('Beschreibung')->schema([
+                        Section::make('Beschreibung')
+                            ->schema([
+                                RichEditor::make('description')
+                                    ->hiddenLabel()
+                                    ->toolbarButtons(['bold', 'italic', 'underline']),
+                            ]),
+                    ]),
+
+                    Tabs\Tab::make('Notiz')->schema([
+                        Section::make('Interne Notiz')
+                            ->schema([
+                                RichEditor::make('internal_note')
+                                    ->hiddenLabel()
+                                    ->toolbarButtons(['bold', 'italic', 'underline']),
                             ]),
                     ]),
                 ]),
