@@ -39,6 +39,15 @@ class DatabaseSeeder extends Seeder
             ->count(10)
             ->create();
 
+        // Past Jobfairs
+        JobFair::factory()
+            ->has(Location::factory(), 'locations')
+            ->has(JobFairDate::factory()->past(), 'dates')
+            ->has(SchoolRegistration::factory()->count(2))
+            ->count(3)
+            ->create();
+
+        // Future Jobfairs
         JobFair::factory()
             ->has(Location::factory(), 'locations')
             ->has(JobFairDate::factory(), 'dates')

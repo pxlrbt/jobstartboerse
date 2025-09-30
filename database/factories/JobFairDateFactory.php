@@ -23,4 +23,11 @@ class JobFairDateFactory extends Factory
             'ends_at' => $this->faker->time('H:i'),
         ];
     }
+
+    public function past(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'date' => today()->subDays(random_int(10, 365)),
+        ]);
+    }
 }
