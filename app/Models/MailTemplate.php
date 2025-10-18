@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Models;
+
+use Database\Factories\MailTemplateFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class MailTemplate extends Model
+{
+    /** @use HasFactory<MailTemplateFactory> */
+    use HasFactory;
+
+    use SoftDeletes;
+}

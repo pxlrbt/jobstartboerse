@@ -9,6 +9,7 @@ use App\Models\Exhibitor;
 use App\Models\JobFair;
 use App\Models\JobFairDate;
 use App\Models\Location;
+use App\Models\MailTemplate;
 use App\Models\Profession;
 use App\Models\SchoolRegistration;
 use App\Models\User;
@@ -74,5 +75,9 @@ class DatabaseSeeder extends Seeder
         foreach ($exhibitors as $exhibitor) {
             $exhibitor->jobFairs()->saveMany($jobFairs);
         }
+
+        MailTemplate::factory()
+            ->count(3)
+            ->create();
     }
 }

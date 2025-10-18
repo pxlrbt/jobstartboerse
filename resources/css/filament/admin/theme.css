@@ -2,3 +2,7 @@
 
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
+
+.fi-fo-rich-editor .tiptap {
+    min-height: 7lh;
+}
