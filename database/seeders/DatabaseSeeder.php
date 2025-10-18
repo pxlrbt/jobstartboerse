@@ -9,6 +9,7 @@ use App\Models\Exhibitor;
 use App\Models\JobFair;
 use App\Models\JobFairDate;
 use App\Models\Location;
+use App\Models\Mailing;
 use App\Models\MailTemplate;
 use App\Models\Profession;
 use App\Models\SchoolRegistration;
@@ -77,6 +78,10 @@ class DatabaseSeeder extends Seeder
         }
 
         MailTemplate::factory()
+            ->count(3)
+            ->create();
+
+        Mailing::factory()
             ->count(3)
             ->create();
     }

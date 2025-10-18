@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\MailTemplateResource\Pages;
-use App\Models\MailTemplate;
+use App\Filament\Enums\NavigationGroup;
+use App\Filament\Resources\MailingResource\Pages;
+use App\Models\Mailing;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -16,55 +17,51 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
-class MailTemplateResource extends Resource
+class MailingResource extends Resource
 {
-    protected static ?string $model = MailTemplate::class;
+    protected static ?string $model = Mailing::class;
 
-    protected static ?string $slug = 'mail-templates';
+    protected static ?string $slug = 'mailings';
 
-    protected static ?string $modelLabel = 'Vorlage';
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::EnvelopeOpen;
 
-    protected static ?string $pluralModelLabel = 'Vorlagen';
-
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::Envelope;
-
-    public static function getNavigationParentItem(): ?string
-    {
-        return ucfirst(MailingResource::getPluralModelLabel());
-    }
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Functions;
 
     public static function form(Schema $schema): Schema
     {
+        // $components = QueryBuilder::make('query')
+        //     ->constraints([
+        //         QueryBuilder\Constraints\SelectConstraint::make('job_fairs')
+        //             ->label('Veranstaltungen')
+        //             ->relationship('jobFairs', 'display_name')
+        //             ->multiple(),
+        //     ])
+        //     ->getSchemaComponents();
+
         return $schema
             ->columns(1)
             ->components([
-                TextInput::make('display_name')
-                    ->label('Name')
+                // Section::make('Auswahl Empfänger')
+                //     ->compact()
+                //     ->components($components),
+
+                TextInput::make('subject')
+                    ->label('Betreff')
                     ->required(),
 
-                RichEditor::make('content')
-                    ->label('Mail')
-                    ->toolbarButtons([
-                        ['bold', 'italic', 'underline'],
-                        ['orderedList', 'bulletList', 'link'],
-                        ['mergeTags'],
-                    ])
-                    ->mergeTags([
-                        'geehrte' => 'geehrte/r',
-                        'frau_herr' => 'Frau/Herr',
-                        'vorname' => 'Vorname',
-                        'nachname' => 'Nachname',
-                        'zugangsdaten' => 'Zugangsdaten',
-                        'ausstellername' => 'Ausstellername',
-                    ])
+                RichEditor::make('message')
+                    ->label('Nachricht')
                     ->required(),
             ]);
     }
@@ -73,7 +70,15 @@ class MailTemplateResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('display_name'),
+                TextColumn::make('subject')
+                    ->label('Betreff')
+                    ->searchable(),
+
+                TextColumn::make('created_at')
+                    ->label('Versendet am')
+                    ->date()
+                    ->sortable(),
+
             ])
             ->filters([
                 TrashedFilter::make(),
@@ -96,9 +101,9 @@ class MailTemplateResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMailTemplates::route('/'),
-            'create' => Pages\CreateMailTemplate::route('/create'),
-            'edit' => Pages\EditMailTemplate::route('/{record}/edit'),
+            'index' => Pages\ListMailings::route('/'),
+            'create' => Pages\CreateMailing::route('/create'),
+            'edit' => Pages\EditMailing::route('/{record}/edit'),
         ];
     }
 
