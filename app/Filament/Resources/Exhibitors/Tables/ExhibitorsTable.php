@@ -2,14 +2,13 @@
 
 namespace App\Filament\Resources\Exhibitors\Tables;
 
-use App\Models\Exhibitor;
+use App\Filament\Columns\ContactPersonColumn;
+use App\Filament\Columns\ExhibitorNameColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\HtmlString;
 
 class ExhibitorsTable
 {
@@ -20,33 +19,8 @@ class ExhibitorsTable
                 ImageColumn::make('logo_file')
                     ->label(''),
 
-                TextColumn::make('display_name')
-                    ->formatStateUsing(function (Exhibitor $record) {
-                        return new HtmlString(<<<HTML
-                            {$record->display_name}<br>
-                            <small>{$record->display_name_affix}</small>
-                        HTML);
-                    })
-                    ->label('Name')
-                    ->searchable()
-                    ->sortable(),
-
-                TextColumn::make('contactPerson.last_name')
-                    ->label('Ansprechpartner')
-                    ->formatStateUsing(function (Exhibitor $record) {
-                        return new HtmlString(<<<HTML
-                            <div style="line-height: 1.2">
-                                {$record->contactPerson->last_name}<br>
-                                <small>
-                                    <a href="mailto:{$record->contactPerson->email}">
-                                        {$record->contactPerson->email}
-                                    </a>
-                                </small>
-                            </div>
-                        HTML);
-                    })
-                    ->searchable()
-                    ->sortable(),
+                ExhibitorNameColumn::make(),
+                ContactPersonColumn::make(),
             ])
             ->filters([
                 //

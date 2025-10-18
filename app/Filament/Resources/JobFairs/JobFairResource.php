@@ -6,6 +6,7 @@ use App\Filament\Resources\Exhibitors\RelationManagers\SchoolRegistrationsRelati
 use App\Filament\Resources\JobFairs\Pages\CreateJobFair;
 use App\Filament\Resources\JobFairs\Pages\EditJobFair;
 use App\Filament\Resources\JobFairs\Pages\ListJobFairs;
+use App\Filament\Resources\JobFairs\RelationManagers\ExhibitorsRelationManager;
 use App\Filament\Resources\JobFairs\Schemas\JobFairForm;
 use App\Filament\Resources\JobFairs\Tables\JobFairsTable;
 use App\Models\JobFair;
@@ -43,6 +44,7 @@ class JobFairResource extends Resource
     {
         return [
             SchoolRegistrationsRelationManager::make(),
+            ExhibitorsRelationManager::make(),
         ];
     }
 

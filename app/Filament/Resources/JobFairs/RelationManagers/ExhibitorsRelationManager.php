@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\Exhibitors\RelationManagers;
+namespace App\Filament\Resources\JobFairs\RelationManagers;
 
-use App\Filament\Resources\JobFairs\JobFairResource;
+use App\Filament\Columns\ContactPersonColumn;
+use App\Filament\Columns\ExhibitorNameColumn;
 use Filament\Actions\Action;
 use Filament\Actions\AttachAction;
 use Filament\Actions\BulkActionGroup;
@@ -18,21 +19,18 @@ use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 
-class JobFairsRelationManager extends RelationManager
+class ExhibitorsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'jobFairs';
+    protected static string $relationship = 'exhibitors';
 
-    protected static ?string $title = 'Börsen';
+    protected static ?string $title = 'Aussteller';
 
-    protected static ?string $modelLabel = 'Börse';
+    protected static ?string $modelLabel = 'Aussteller';
 
-    protected static ?string $pluralModelLabel = 'Börsen';
+    protected static ?string $pluralModelLabel = 'Aussteller';
 
     public function form(Schema $schema): Schema
     {
@@ -56,14 +54,8 @@ class JobFairsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('display_name')
             ->columns([
-                TextColumn::make('display_name')
-                    ->label('Börse')
-                    ->action(
-                        Action::make('go_to_job_fair')
-                            ->action(fn ($record) => redirect(JobFairResource::getUrl('edit', ['record' => $record])))
-                    )
-                    ->extraAttributes(['class' => 'hover:underline'])
-                    ->searchable(),
+                ExhibitorNameColumn::make(),
+                ContactPersonColumn::make(),
 
                 TextColumn::make('stall_number')
                     ->label('Standnummer'),
@@ -72,7 +64,7 @@ class JobFairsRelationManager extends RelationManager
                     ->label('Strom')
                     ->boolean(),
 
-                IconColumn::make('internal_note')
+                IconColumn::make('pivot.internal_note')
                     ->label('Notiz')
                     ->icon(fn ($state) => filled($state) ? Heroicon::Envelope : null)
                     ->action(
@@ -80,21 +72,16 @@ class JobFairsRelationManager extends RelationManager
                             ->action(null)
                             ->modalWidth(Width::Medium)
                             ->modalHeading('Interne Notiz')
-                            ->modalContent(fn ($record) => new HtmlString(nl2br($record->internal_note)))
+                            ->modalContent(fn ($record) => new HtmlString(nl2br($record->pivot_internal_note)))
                             ->modalSubmitAction(false)
                             ->modalCancelActionLabel('Schließen')
                     ),
             ])
-            ->filters([
-                TrashedFilter::make(),
-            ])
+
             ->headerActions([
                 AttachAction::make()
                     ->schema(fn (AttachAction $action) => [
                         $action->getRecordSelect(),
-
-                        TextInput::make('stall_number')
-                            ->label('Standnummer'),
 
                         Toggle::make('pivot_needs_power')
                             ->label('Strom'),
@@ -108,18 +95,17 @@ class JobFairsRelationManager extends RelationManager
             ])
             ->recordActions([
                 EditAction::make()
+                    ->tooltip(__('filament-actions::edit.single.label'))
                     ->modalWidth(Width::Large)
                     ->iconButton(),
-                DetachAction::make()->iconButton(),
+                DetachAction::make()
+                    ->tooltip(__('filament-actions::detach.single.label'))
+                    ->iconButton(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DetachBulkAction::make(),
                 ]),
-            ])
-            ->modifyQueryUsing(fn (Builder $query) => $query
-                ->withoutGlobalScopes([
-                    SoftDeletingScope::class,
-                ]));
+            ]);
     }
 }

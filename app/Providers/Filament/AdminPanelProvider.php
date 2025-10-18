@@ -35,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->favicon('/favicon.svg')
             ->passwordReset()
 
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Amber,
             ])
