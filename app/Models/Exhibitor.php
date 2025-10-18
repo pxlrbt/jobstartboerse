@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Branch;
+use App\Models\Pivot\ExhibitorRegistration;
 use Database\Factories\ExhibitorFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -74,5 +75,19 @@ class Exhibitor extends Model
     public function degrees(): BelongsToMany
     {
         return $this->belongsToMany(Degree::class);
+    }
+
+    /**
+     * @return BelongsToMany<JobFair, $this>
+     */
+    public function jobFairs(): BelongsToMany
+    {
+        return $this->belongsToMany(JobFair::class)
+            ->using(ExhibitorRegistration::class)
+            ->withPivot([
+                'stall_number',
+                'needs_power',
+                'internal_note',
+            ]);
     }
 }

@@ -17,6 +17,7 @@ class JobFairFactory extends Factory
     public function definition(): array
     {
         return [
+            'display_name' => $this->faker->city().' • '.date('Y'),
             'description' => $this->faker->realText(),
             'is_public' => $this->faker->boolean(),
             'are_exhibitors_public' => $this->faker->boolean(),

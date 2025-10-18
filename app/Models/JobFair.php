@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\DataObjects\Attachment;
+use App\Models\Pivot\ExhibitorRegistration;
 use Database\Factories\JobFairFactory;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -36,17 +36,7 @@ class JobFair extends Model
     }
 
     /**
-     * @return Attribute<non-falsy-string,never>
-     */
-    protected function displayName(): Attribute
-    {
-        return Attribute::get(
-            fn ($value, array $attributes) => $this->locations->first()?->city.' ⋅ '.$this->dates->first()?->date->format('Y')
-        );
-    }
-
-    /**
-     * @return HasMany<JobFairDate,$this>
+     * @return HasMany<JobFairDate, $this>
      */
     public function dates(): HasMany
     {
@@ -54,15 +44,40 @@ class JobFair extends Model
     }
 
     /**
-     * @return BelongsToMany<Location,$this>
+     * @return BelongsToMany<Location, $this>
      */
     public function locations(): BelongsToMany
     {
         return $this->belongsToMany(Location::class);
     }
 
+    /**
+     * @return BelongsToMany<Exhibitor, $this>
+     */
+    public function exhibitors(): BelongsToMany
+    {
+        return $this->belongsToMany(Exhibitor::class)
+            ->using(ExhibitorRegistration::class)
+            ->withPivot([
+                'stall_number',
+                'needs_power',
+                'internal_note',
+            ]);
+    }
+
+    /**
+     * @return HasMany<SchoolRegistration, $this>
+     */
     public function schoolRegistrations(): HasMany
     {
         return $this->hasMany(SchoolRegistration::class);
+    }
+
+    public function refreshDisplayName(): void
+    {
+        $location = $this->locations()->first();
+        $date = $this->dates()->first();
+
+        $this->update(['display_name' => "{$location->city} • {$date->date->format('Y')}"]);
     }
 }

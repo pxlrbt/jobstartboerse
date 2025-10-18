@@ -92,5 +92,18 @@ return new class extends Migration
             $table->foreignId('profession_id');
             $table->timestamps();
         });
+
+        Schema::create('exhibitor_job_fair', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('exhibitor_id');
+            $table->foreignId('job_fair_id');
+
+            $table->boolean('needs_power')->default(false);
+            $table->string('stall_number')->nullable();
+            $table->text('internal_note')->nullable();
+            $table->dateTime('confirmed_at')->nullable();
+
+            $table->timestamps();
+        });
     }
 };

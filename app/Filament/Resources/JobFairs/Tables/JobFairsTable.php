@@ -20,7 +20,7 @@ class JobFairsTable
     {
         return $table
             ->columns([
-                TextColumn::make('displayName')
+                TextColumn::make('display_name')
                     ->label('Börse'),
 
                 TextColumn::make('date')
@@ -42,7 +42,13 @@ class JobFairsTable
                     ->label('Aussteller')
                     ->sortable()
                     ->badge()
-                    ->state('123'),
+                    ->counts('exhibitors'),
+
+                TextColumn::make('school_registrations_count')
+                    ->label('Schulanmeldungen')
+                    ->sortable()
+                    ->badge()
+                    ->counts('schoolRegistrations'),
             ])
             ->filters([
                 TrashedFilter::make(),

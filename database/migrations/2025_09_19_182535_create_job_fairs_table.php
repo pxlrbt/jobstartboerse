@@ -11,6 +11,8 @@ return new class extends Migration
         Schema::create('job_fairs', function (Blueprint $table) {
             $table->id();
 
+            $table->string('display_name')->nullable();
+
             $table->text('description')->nullable();
             $table->boolean('is_public')->default(false);
             $table->boolean('are_exhibitors_public')->default(false);

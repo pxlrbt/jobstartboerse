@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         // Past Jobfairs
-        JobFair::factory()
+        $pastJobFairs = JobFair::factory()
             ->has(Location::factory(), 'locations')
             ->has(JobFairDate::factory()->past(), 'dates')
             ->has(SchoolRegistration::factory()->count(2))
@@ -48,22 +48,31 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         // Future Jobfairs
-        JobFair::factory()
+        $futureJobFairs = JobFair::factory()
             ->has(Location::factory(), 'locations')
             ->has(JobFairDate::factory(), 'dates')
             ->has(SchoolRegistration::factory()->count(2))
             ->count(5)
             ->create();
 
-        Exhibitor::factory()
+        $jobFairs = [...$pastJobFairs, ...$futureJobFairs];
+
+        foreach ($jobFairs as $jobFair) {
+            $jobFair->refreshDisplayName();
+        }
+
+        $exhibitors = Exhibitor::factory()
             ->has(Address::factory(), 'address')
             ->has(Address::factory(), 'billingAddress')
             ->has(ContactPerson::factory(), 'contactPerson')
             ->has(ContactPerson::factory(), 'billingContactPerson')
             ->has(Profession::factory()->count(5))
             ->has(Degree::factory()->count(5))
-
             ->count(10)
             ->create();
+
+        foreach ($exhibitors as $exhibitor) {
+            $exhibitor->jobFairs()->saveMany($jobFairs);
+        }
     }
 }
