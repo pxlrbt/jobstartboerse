@@ -69,7 +69,6 @@ class EditExhibitorProfile extends Page
 
     public function content(Schema $schema): Schema
     {
-
         return $schema->components([
             Form::make([EmbeddedSchema::make('form')])
                 ->id('form')

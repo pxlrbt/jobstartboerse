@@ -90,6 +90,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('exhibitor_id');
             $table->foreignId('profession_id');
+            $table->boolean('offers_internship')->default(false);
             $table->timestamps();
         });
 

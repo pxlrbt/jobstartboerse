@@ -66,7 +66,9 @@ class Exhibitor extends Model
      */
     public function professions(): BelongsToMany
     {
-        return $this->belongsToMany(Profession::class);
+        return $this
+            ->belongsToMany(Profession::class)
+            ->withPivot(['offers_internship']);
     }
 
     /**
@@ -74,7 +76,8 @@ class Exhibitor extends Model
      */
     public function degrees(): BelongsToMany
     {
-        return $this->belongsToMany(Degree::class);
+        return $this
+            ->belongsToMany(Degree::class);
     }
 
     /**
