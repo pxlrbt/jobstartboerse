@@ -2,6 +2,7 @@
 
 namespace App\Filament\Exhibitor\Pages;
 
+use App\Filament\Enums\NavigationGroup;
 use App\Filament\Resources\Exhibitors\Schemas\ExhibitorForm;
 use App\Models\Exhibitor;
 use BackedEnum;
@@ -18,6 +19,7 @@ use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Js;
+use UnitEnum;
 
 /**
  * @property-read Schema $form
@@ -35,6 +37,8 @@ class EditExhibitorProfile extends Page
     protected Width|string|null $maxContentWidth = Width::ScreenLarge;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::UserCircle;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Profiles;
 
     protected static ?string $navigationLabel = 'Aussteller-Profil';
 

@@ -58,6 +58,7 @@ class ExhibitorPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
             ])
+
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

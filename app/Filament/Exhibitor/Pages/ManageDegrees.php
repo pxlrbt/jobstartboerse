@@ -3,6 +3,7 @@
 namespace App\Filament\Exhibitor\Pages;
 
 use App\DataObjects\JobFairManager;
+use App\Filament\Enums\NavigationGroup;
 use App\Filament\Exhibitor\RelationManagers\DegreeRelationManager;
 use BackedEnum;
 use Filament\Pages\Page;
@@ -10,12 +11,15 @@ use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\HtmlString;
+use UnitEnum;
 
 class ManageDegrees extends Page
 {
     protected static ?string $title = 'Studiengänge';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::AcademicCap;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Data;
 
     public function content(Schema $schema): Schema
     {
