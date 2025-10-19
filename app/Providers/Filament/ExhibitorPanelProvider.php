@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Exhibitor\RelationManagers\DegreeRelationManager;
 use App\Filament\Exhibitor\RelationManagers\ProfessionRelationManager;
 use App\Filament\Pages\Login;
 use Filament\Http\Middleware\Authenticate;
@@ -28,6 +29,7 @@ class ExhibitorPanelProvider extends PanelProvider
         parent::register();
 
         Livewire::component(ProfessionRelationManager::class, ProfessionRelationManager::class);
+        Livewire::component(DegreeRelationManager::class, DegreeRelationManager::class);
     }
 
     public function panel(Panel $panel): Panel

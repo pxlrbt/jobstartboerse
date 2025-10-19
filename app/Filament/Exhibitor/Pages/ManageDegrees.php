@@ -3,7 +3,7 @@
 namespace App\Filament\Exhibitor\Pages;
 
 use App\DataObjects\JobFairManager;
-use App\Filament\Exhibitor\RelationManagers\ProfessionRelationManager;
+use App\Filament\Exhibitor\RelationManagers\DegreeRelationManager;
 use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Livewire;
@@ -11,16 +11,16 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\HtmlString;
 
-class ManageProfessions extends Page
+class ManageDegrees extends Page
 {
-    protected static ?string $title = 'Berufe';
+    protected static ?string $title = 'Studiengänge';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::Briefcase;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::AcademicCap;
 
     public function content(Schema $schema): Schema
     {
         $record = auth()->user()->exhibitor;
-        $manager = ProfessionRelationManager::make();
+        $manager = DegreeRelationManager::make();
 
         $managerRegional = JobFairManager::regional();
         $managerFreiburg = JobFairManager::freiburg();
@@ -28,8 +28,8 @@ class ManageProfessions extends Page
         return $schema->components([
             new HtmlString(<<<HTML
                 <div class="prose text-base max-w-3xl">
-                    <p>Wählen Sie nachfolgend die Ausbildungsberufe, die in Ihrem Unternehmen angeboten werden.</p>
-                    <p>Finden Sie Ihren Ausbildungsberuf nicht in der Übersicht, dann kontaktieren Sie bitte {$managerRegional->mailto()} oder {$managerFreiburg->mailto()}.</p>
+                    <p>Wählen Sie nachfolgend die Dualen Studienangebote, die in Ihrem Unternehmen angeboten werden.</p>
+                    <p>Finden Sie Ihr Duales Studium nicht in der Übersicht, dann kontaktieren Sie bitte {$managerRegional->mailto()} oder das {$managerFreiburg->mailto()}.</p>
                 </div>
             HTML),
 
