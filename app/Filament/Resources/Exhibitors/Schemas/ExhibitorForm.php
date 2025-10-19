@@ -3,19 +3,24 @@
 namespace App\Filament\Resources\Exhibitors\Schemas;
 
 use App\Enums\Branch;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 
 class ExhibitorForm
 {
-    public static function configure(Schema $schema): Schema
+    /**
+     * @return array<Component>
+     */
+    protected static function getAddressSchema(): array
     {
-        $addressSchema = [
+        return [
             TextInput::make('name')
                 ->label('Bezeichnung')
                 ->columnSpanFull(),
@@ -33,8 +38,14 @@ class ExhibitorForm
                 ->label('Ort')
                 ->columnSpan(8),
         ];
+    }
 
-        $contactPersonSchema = [
+    /**
+     * @return array<Component>
+     */
+    protected static function getContactPersonSchema(): array
+    {
+        return [
             TextInput::make('title')
                 ->label('Titel')
                 ->columnSpan(2),
@@ -57,6 +68,12 @@ class ExhibitorForm
                 ->email()
                 ->columnSpan(6),
         ];
+    }
+
+    public static function configure(Schema $schema): Schema
+    {
+        $addressSchema = self::getAddressSchema();
+        $contactPersonSchema = self::getContactPersonSchema();
 
         return $schema
             ->columns(1)
@@ -126,14 +143,16 @@ class ExhibitorForm
                             ]),
                     ]),
 
-                    Tabs\Tab::make('Notiz')->schema([
-                        Section::make('Interne Notiz')
-                            ->schema([
-                                RichEditor::make('internal_note')
-                                    ->hiddenLabel()
-                                    ->toolbarButtons(['bold', 'italic', 'underline']),
-                            ]),
-                    ]),
+                    Tabs\Tab::make('Notiz')
+                        ->visible(fn () => Filament::getCurrentPanel()->getId() === 'admin')
+                        ->schema([
+                            Section::make('Interne Notiz')
+                                ->schema([
+                                    RichEditor::make('internal_note')
+                                        ->hiddenLabel()
+                                        ->toolbarButtons(['bold', 'italic', 'underline']),
+                                ]),
+                        ]),
                 ]),
             ]);
     }
