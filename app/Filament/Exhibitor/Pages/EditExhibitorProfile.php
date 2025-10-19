@@ -42,7 +42,7 @@ class EditExhibitorProfile extends Page
 
     public function mount(): void
     {
-        $this->record = Exhibitor::first();
+        $this->record = auth()->user()->exhibitor;
 
         $this->form->fill($this->record->toArray());
         $this->form->record($this->record);

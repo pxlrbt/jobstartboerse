@@ -3,7 +3,6 @@
 namespace App\Filament\Exhibitor\Pages;
 
 use App\Filament\Exhibitor\RelationManagers\ProfessionRelationManager;
-use App\Models\Exhibitor;
 use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Livewire;
@@ -18,7 +17,7 @@ class ManageProfessions extends Page
 
     public function content(Schema $schema): Schema
     {
-        $record = Exhibitor::first();
+        $record = auth()->user()->exhibitor;
         $manager = ProfessionRelationManager::make();
 
         return $schema->components([

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Role;
 use App\Models\Address;
 use App\Models\ContactPerson;
 use App\Models\Degree;
@@ -27,19 +28,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'email' => 'admin@jobstartboerse.de',
             'password' => Hash::make('password'),
+            'role' => Role::Admin,
         ]);
-
-        User::factory()
-            ->count(10)
-            ->create();
-
-        Profession::factory()
-            ->count(10)
-            ->create();
-
-        Degree::factory()
-            ->count(10)
-            ->create();
 
         // Past Jobfairs
         $pastJobFairs = JobFair::factory()
@@ -76,6 +66,19 @@ class DatabaseSeeder extends Seeder
         foreach ($exhibitors as $exhibitor) {
             $exhibitor->jobFairs()->saveMany($jobFairs);
         }
+
+        User::factory()
+            ->recycle($exhibitors)
+            ->count(10)
+            ->create();
+
+        Profession::factory()
+            ->count(10)
+            ->create();
+
+        Degree::factory()
+            ->count(10)
+            ->create();
 
         MailTemplate::factory()
             ->count(3)
