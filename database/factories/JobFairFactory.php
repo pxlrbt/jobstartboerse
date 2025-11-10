@@ -21,6 +21,7 @@ class JobFairFactory extends Factory
             'description' => $this->faker->realText(),
             'is_public' => $this->faker->boolean(),
             'are_exhibitors_public' => $this->faker->boolean(),
+            'lounge_registration_ends_at' => $this->faker->optional(.3)->dateTimeBetween('now', '+ 6 months'),
         ];
     }
 }
