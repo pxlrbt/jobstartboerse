@@ -3,8 +3,10 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Exhibitor\RelationManagers\DegreeRelationManager;
+use App\Filament\Exhibitor\RelationManagers\JobStartRelationManager;
 use App\Filament\Exhibitor\RelationManagers\ProfessionRelationManager;
 use App\Filament\Pages\Login;
+use Filafly\Icons\Phosphor\PhosphorIcons;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -30,6 +32,7 @@ class ExhibitorPanelProvider extends PanelProvider
 
         Livewire::component(ProfessionRelationManager::class, ProfessionRelationManager::class);
         Livewire::component(DegreeRelationManager::class, DegreeRelationManager::class);
+        Livewire::component(JobStartRelationManager::class, JobStartRelationManager::class);
     }
 
     public function panel(Panel $panel): Panel
@@ -72,6 +75,8 @@ class ExhibitorPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+
+            ->plugin(PhosphorIcons::make()->duotone());
     }
 }

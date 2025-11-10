@@ -4,10 +4,10 @@ namespace App\Filament\Exhibitor\Pages;
 
 use App\Filament\Enums\NavigationGroup;
 use BackedEnum;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Facades\Filament;
 use Filament\Panel;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Route;
 use UnitEnum;
 
@@ -20,7 +20,7 @@ class EditProfile extends \Filament\Auth\Pages\EditProfile
 
     protected static ?string $navigationLabel = 'Benutzer-Profil';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::UserCircle;
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::UserCircleDuotone;
 
     protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Profiles;
 

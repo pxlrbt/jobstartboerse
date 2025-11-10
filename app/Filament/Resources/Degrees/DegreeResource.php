@@ -8,9 +8,9 @@ use App\Filament\Resources\Degrees\Schemas\DegreeForm;
 use App\Filament\Resources\Degrees\Tables\DegreesTable;
 use App\Models\Degree;
 use BackedEnum;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,7 +20,7 @@ class DegreeResource extends Resource
 {
     protected static ?string $model = Degree::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::AcademicCap;
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::GraduationCapDuotone;
 
     protected static ?string $modelLabel = 'Studiengang';
 

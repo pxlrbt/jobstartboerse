@@ -12,16 +12,16 @@ use App\Filament\Resources\Exhibitors\Schemas\ExhibitorForm;
 use App\Filament\Resources\Exhibitors\Tables\ExhibitorsTable;
 use App\Models\Exhibitor;
 use BackedEnum;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
 class ExhibitorResource extends Resource
 {
     protected static ?string $model = Exhibitor::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingOffice2;
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::BuildingsDuotone;
 
     protected static ?string $recordTitleAttribute = 'display_name';
 

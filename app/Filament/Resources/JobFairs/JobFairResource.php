@@ -11,9 +11,9 @@ use App\Filament\Resources\JobFairs\Schemas\JobFairForm;
 use App\Filament\Resources\JobFairs\Tables\JobFairsTable;
 use App\Models\JobFair;
 use BackedEnum;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -22,7 +22,7 @@ class JobFairResource extends Resource
 {
     protected static ?string $model = JobFair::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::CalendarDays;
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::CalendarDuotone;
 
     protected static ?string $recordTitleAttribute = 'display_name';
 

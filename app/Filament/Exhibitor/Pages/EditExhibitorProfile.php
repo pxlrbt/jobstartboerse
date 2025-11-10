@@ -6,6 +6,7 @@ use App\Filament\Enums\NavigationGroup;
 use App\Filament\Resources\Exhibitors\Schemas\ExhibitorForm;
 use App\Models\Exhibitor;
 use BackedEnum;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Actions\Action;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Notifications\Notification;
@@ -17,7 +18,6 @@ use Filament\Schemas\Components\Form;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\Width;
-use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Js;
 use UnitEnum;
 
@@ -36,7 +36,7 @@ class EditExhibitorProfile extends Page
 
     protected Width|string|null $maxContentWidth = Width::ScreenLarge;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::UserCircle;
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::UserCircleDuotone;
 
     protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Profiles;
 
@@ -105,8 +105,6 @@ class EditExhibitorProfile extends Page
 
     protected function getSaveFormAction(): Action
     {
-        $hasFormWrapper = true; // $this->hasFormWrapper();
-
         return Action::make('save')
             ->label(__('filament-panels::resources/pages/edit-record.form.actions.save.label'))
             ->submit('save')

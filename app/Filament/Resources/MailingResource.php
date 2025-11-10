@@ -6,6 +6,7 @@ use App\Filament\Enums\NavigationGroup;
 use App\Filament\Resources\MailingResource\Pages;
 use App\Models\Mailing;
 use BackedEnum;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -19,7 +20,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\TrashedFilter;
@@ -34,7 +34,7 @@ class MailingResource extends Resource
 
     protected static ?string $slug = 'mailings';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::EnvelopeOpen;
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::EnvelopeDuotone;
 
     protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Functions;
 

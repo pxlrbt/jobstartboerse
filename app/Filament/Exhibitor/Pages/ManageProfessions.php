@@ -6,10 +6,10 @@ use App\DataObjects\JobFairManager;
 use App\Filament\Enums\NavigationGroup;
 use App\Filament\Exhibitor\RelationManagers\ProfessionRelationManager;
 use BackedEnum;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\HtmlString;
 use UnitEnum;
 
@@ -17,7 +17,7 @@ class ManageProfessions extends Page
 {
     protected static ?string $title = 'Berufe';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::Briefcase;
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::BriefcaseDuotone;
 
     protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Data;
 

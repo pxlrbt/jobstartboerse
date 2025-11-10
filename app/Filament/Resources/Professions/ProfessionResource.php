@@ -8,9 +8,9 @@ use App\Filament\Resources\Professions\Schemas\ProfessionForm;
 use App\Filament\Resources\Professions\Tables\ProfessionsTable;
 use App\Models\Profession;
 use BackedEnum;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,7 +20,7 @@ class ProfessionResource extends Resource
 {
     protected static ?string $model = Profession::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::Briefcase;
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::BriefcaseDuotone;
 
     protected static ?string $modelLabel = 'Beruf';
 

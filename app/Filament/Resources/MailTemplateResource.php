@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\MailTemplateResource\Pages;
 use App\Models\MailTemplate;
 use BackedEnum;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -17,7 +18,6 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -34,7 +34,7 @@ class MailTemplateResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Vorlagen';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::Envelope;
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::EnvelopeSimpleDuotone;
 
     public static function getNavigationParentItem(): ?string
     {
