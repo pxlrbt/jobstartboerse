@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\MailingResource\Pages;
+namespace App\Filament\Resources\Mailings\Pages;
 
-use App\Filament\Resources\MailingResource;
+use App\Filament\Resources\Mailings\MailingResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 

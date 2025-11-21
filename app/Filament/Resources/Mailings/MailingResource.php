@@ -1,27 +1,21 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Mailings;
 
 use App\Filament\Enums\NavigationGroup;
-use App\Filament\Resources\MailingResource\Pages;
 use App\Models\Mailing;
 use BackedEnum;
 use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\TextInput;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Resource;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,41 +28,18 @@ class MailingResource extends Resource
 
     protected static ?string $slug = 'mailings';
 
+    protected static ?string $modelLabel = 'Mailing';
+
+    protected static ?string $pluralModelLabel = 'Mailings';
+
     protected static string|BackedEnum|null $navigationIcon = Phosphor::EnvelopeDuotone;
 
     protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Functions;
 
-    public static function form(Schema $schema): Schema
-    {
-        // $components = QueryBuilder::make('query')
-        //     ->constraints([
-        //         QueryBuilder\Constraints\SelectConstraint::make('job_fairs')
-        //             ->label('Veranstaltungen')
-        //             ->relationship('jobFairs', 'display_name')
-        //             ->multiple(),
-        //     ])
-        //     ->getSchemaComponents();
-
-        return $schema
-            ->columns(1)
-            ->components([
-                // Section::make('Auswahl Empfänger')
-                //     ->compact()
-                //     ->components($components),
-
-                TextInput::make('subject')
-                    ->label('Betreff')
-                    ->required(),
-
-                RichEditor::make('message')
-                    ->label('Nachricht')
-                    ->required(),
-            ]);
-    }
-
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'DESC')
             ->columns([
                 TextColumn::make('subject')
                     ->label('Betreff')
@@ -84,7 +55,7 @@ class MailingResource extends Resource
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                EditAction::make(),
+                ViewAction::make(),
                 DeleteAction::make(),
                 RestoreAction::make(),
                 ForceDeleteAction::make(),
@@ -103,7 +74,7 @@ class MailingResource extends Resource
         return [
             'index' => Pages\ListMailings::route('/'),
             'create' => Pages\CreateMailing::route('/create'),
-            'edit' => Pages\EditMailing::route('/{record}/edit'),
+            'view' => Pages\ViewMailing::route('/{record}/view'),
         ];
     }
 
@@ -113,10 +84,5 @@ class MailingResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return [];
     }
 }

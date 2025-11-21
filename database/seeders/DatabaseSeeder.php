@@ -17,6 +17,7 @@ use App\Models\SchoolRegistration;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -84,8 +85,21 @@ class DatabaseSeeder extends Seeder
             ->count(3)
             ->create();
 
-        Mailing::factory()
+        $mailings = Mailing::factory()
             ->count(3)
             ->create();
+
+        foreach ($mailings as $mailing) {
+            $recipients = $exhibitors->random(5);
+
+            foreach ($recipients as $recipient) {
+                DB::table('mailing_exhibitor')->insert([
+                    'mailing_id' => $mailing->id,
+                    'exhibitor_id' => $recipient->id,
+                    'name' => $recipient->contactPerson->full_name,
+                    'email' => $recipient->contactPerson->email,
+                ]);
+            }
+        }
     }
 }

@@ -93,4 +93,14 @@ class Exhibitor extends Model
                 'internal_note',
             ]);
     }
+
+    /**
+     * @return BelongsToMany<Mailing, $this>
+     */
+    public function mailings(): BelongsToMany
+    {
+        return $this->belongsToMany(Mailing::class, table: 'mailing_exhibitor')
+            ->withPivot(['name', 'email'])
+            ->withTimestamps();
+    }
 }

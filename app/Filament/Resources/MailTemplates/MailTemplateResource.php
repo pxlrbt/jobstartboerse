@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\MailTemplates;
 
+use App\Filament\Components\MailEditor;
+use App\Filament\Enums\NavigationGroup;
+use App\Filament\Resources\Mailings\MailingResource;
 use App\Filament\Resources\MailTemplateResource\Pages;
 use App\Models\MailTemplate;
 use BackedEnum;
@@ -14,7 +17,6 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -23,6 +25,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class MailTemplateResource extends Resource
 {
@@ -36,9 +39,13 @@ class MailTemplateResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Phosphor::EnvelopeSimpleDuotone;
 
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Functions;
+
+    protected static ?string $navigationParentItem = 'Mailings';
+
     public static function getNavigationParentItem(): ?string
     {
-        return ucfirst(MailingResource::getPluralModelLabel());
+        return MailingResource::getPluralModelLabel();
     }
 
     public static function form(Schema $schema): Schema
@@ -50,22 +57,7 @@ class MailTemplateResource extends Resource
                     ->label('Name')
                     ->required(),
 
-                RichEditor::make('content')
-                    ->label('Mail')
-                    ->toolbarButtons([
-                        ['bold', 'italic', 'underline'],
-                        ['orderedList', 'bulletList', 'link'],
-                        ['mergeTags'],
-                    ])
-                    ->mergeTags([
-                        'geehrte' => 'geehrte/r',
-                        'frau_herr' => 'Frau/Herr',
-                        'vorname' => 'Vorname',
-                        'nachname' => 'Nachname',
-                        'zugangsdaten' => 'Zugangsdaten',
-                        'ausstellername' => 'Ausstellername',
-                    ])
-                    ->required(),
+                MailEditor::make(),
             ]);
     }
 
@@ -108,10 +100,5 @@ class MailTemplateResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return [];
     }
 }

@@ -56,6 +56,9 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
+    /**
+     * @return BelongsTo<Exhibitor, $this>
+     */
     public function exhibitor(): BelongsTo
     {
         return $this->belongsTo(Exhibitor::class);

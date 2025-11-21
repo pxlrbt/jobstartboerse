@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\MailTemplateResource\Pages;
 
-use App\Filament\Resources\MailTemplateResource;
+use App\Filament\Resources\MailTemplates\MailTemplateResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
