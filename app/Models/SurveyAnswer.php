@@ -22,6 +22,7 @@ class SurveyAnswer extends Model
     {
         return [
             'question_type' => SurveyQuestionType::class,
+            'content' => 'json',
         ];
     }
 

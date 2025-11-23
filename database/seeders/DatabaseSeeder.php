@@ -28,12 +28,6 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        User::factory()->create([
-            'email' => 'admin@jobstartboerse.de',
-            'password' => Hash::make('password'),
-            'role' => Role::Admin,
-        ]);
-
         // Past Jobfairs
         $pastJobFairs = JobFair::factory()
             ->has(Location::factory(), 'locations')
@@ -72,6 +66,14 @@ class DatabaseSeeder extends Seeder
 
         User::factory()
             ->recycle($exhibitors)
+            ->create([
+                'email' => 'admin@jobstartboerse.de',
+                'password' => Hash::make('password'),
+                'role' => Role::Admin,
+            ]);
+
+        User::factory()
+            ->recycle($exhibitors)
             ->count(10)
             ->create();
 
@@ -105,8 +107,13 @@ class DatabaseSeeder extends Seeder
         }
 
         $surveys = Survey::factory()
+            ->recycle($jobFairs)
             ->has(SurveyQuestion::factory()->count(10), 'questions')
             ->count(3)
             ->create();
+
+        foreach ($surveys as $survey) {
+            $survey->jobFairs()->saveMany($jobFairs);
+        }
     }
 }
