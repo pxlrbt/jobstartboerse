@@ -1,0 +1,151 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use App\Enums\SurveyQuestionType;
+use App\Filament\Enums\NavigationGroup;
+use App\Filament\Resources\SurveyResource\Pages;
+use App\Models\Survey;
+use BackedEnum;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
+
+class SurveyResource extends Resource
+{
+    protected static ?string $model = Survey::class;
+
+    protected static ?string $slug = 'surveys';
+
+    protected static string|BackedEnum|null $navigationIcon = Phosphor::QuestionDuotone;
+
+    protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Functions;
+
+    protected static ?string $modelLabel = 'Umfrage';
+
+    protected static ?string $pluralModelLabel = 'Umfragen';
+
+    public static function form(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                TextInput::make('display_name')
+                    ->label('Name')
+                    ->columnSpanFull()
+                    ->required(),
+
+                DatePicker::make('starts_at')
+                    ->label('Von')
+                    ->required(),
+
+                DatePicker::make('ends_at')
+                    ->label('Bis')
+                    ->required(),
+
+                Repeater::make('questions')
+                    ->label('Fragen')
+                    ->relationship('questions')
+                    ->collapsible()
+                    ->orderColumn('order')
+                    ->addActionLabel('Frage hinzufügen')
+                    ->itemLabel(fn (array $state) => $state['display_name'])
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->components([
+                        TextInput::make('display_name')
+                            ->label('Label')
+                            ->live()
+                            ->required(),
+
+                        Select::make('type')
+                            ->label('Typ')
+                            ->enum(SurveyQuestionType::class)
+                            ->options(SurveyQuestionType::class)
+
+                            ->live()
+                            ->partiallyRenderComponentsAfterStateUpdated(['options'])
+                            ->required(),
+
+                        Repeater::make('options')
+                            ->label('Optionen')
+                            ->columnSpanFull()
+                            ->visible(fn (Get $get) => $get('type')?->hasOptions())
+                            ->minItems(1)
+                            ->defaultItems(1)
+                            ->addActionLabel('Option hinzufügen')
+                            ->simple(
+                                TextInput::make('option')->label('Option')
+                            ),
+                    ]),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('display_name')
+                    ->label('Name'),
+
+                TextColumn::make('starts_at')
+                    ->label('Von')
+                    ->date(),
+
+                TextColumn::make('ends_at')
+                    ->label('Bis')
+                    ->date(),
+            ])
+            ->filters([
+                TrashedFilter::make(),
+            ])
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
+                RestoreAction::make(),
+                ForceDeleteAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListSurveys::route('/'),
+            'create' => Pages\CreateSurvey::route('/create'),
+            'edit' => Pages\EditSurvey::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
+    }
+}

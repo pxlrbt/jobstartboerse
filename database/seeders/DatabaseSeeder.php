@@ -14,6 +14,8 @@ use App\Models\Mailing;
 use App\Models\MailTemplate;
 use App\Models\Profession;
 use App\Models\SchoolRegistration;
+use App\Models\Survey;
+use App\Models\SurveyQuestion;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -101,5 +103,10 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+        $surveys = Survey::factory()
+            ->has(SurveyQuestion::factory()->count(10), 'questions')
+            ->count(3)
+            ->create();
     }
 }
