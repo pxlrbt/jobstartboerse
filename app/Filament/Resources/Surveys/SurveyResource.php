@@ -7,6 +7,7 @@ use App\Filament\Enums\NavigationGroup;
 use App\Models\Survey;
 use BackedEnum;
 use Filafly\Icons\Phosphor\Enums\Phosphor;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -15,12 +16,14 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
@@ -47,55 +50,72 @@ class SurveyResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->components([
-                TextInput::make('display_name')
-                    ->label('Name')
-                    ->columnSpanFull()
-                    ->required(),
+                Tabs::make()->contained(false)->tabs([
+                    Tabs\Tab::make('Daten')->components([
+                        Section::make()->collapsible(false)->columns(2)->components([
+                            TextInput::make('display_name')
+                                ->label('Name')
+                                ->columnSpanFull()
+                                ->required(),
 
-                DatePicker::make('starts_at')
-                    ->label('Von')
-                    ->required(),
+                            DatePicker::make('starts_at')
+                                ->label('Von')
+                                ->required(),
 
-                DatePicker::make('ends_at')
-                    ->label('Bis')
-                    ->required(),
+                            DatePicker::make('ends_at')
+                                ->label('Bis')
+                                ->required(),
 
-                Repeater::make('questions')
-                    ->label('Fragen')
-                    ->relationship('questions')
-                    ->collapsible()
-                    ->orderColumn('order')
-                    ->addActionLabel('Frage hinzufügen')
-                    ->itemLabel(fn (array $state) => $state['display_name'])
-                    ->columnSpanFull()
-                    ->columns(2)
-                    ->components([
-                        TextInput::make('display_name')
-                            ->label('Label')
-                            ->live()
-                            ->required(),
-
-                        Select::make('type')
-                            ->label('Typ')
-                            ->enum(SurveyQuestionType::class)
-                            ->options(SurveyQuestionType::class)
-
-                            ->live()
-                            ->partiallyRenderComponentsAfterStateUpdated(['options'])
-                            ->required(),
-
-                        Repeater::make('options')
-                            ->label('Optionen')
-                            ->columnSpanFull()
-                            ->visible(fn (Get $get) => $get('type')?->hasOptions())
-                            ->minItems(1)
-                            ->defaultItems(1)
-                            ->addActionLabel('Option hinzufügen')
-                            ->simple(
-                                TextInput::make('option')->label('Option')
-                            ),
+                            CheckboxList::make('jobFairs')
+                                ->label('Börsen')
+                                ->relationship('jobFairs', 'display_name')
+                                ->minItems(1)
+                                ->columnSpanFull()
+                                ->columns(3),
+                        ]),
                     ]),
+
+                    Tabs\Tab::make('Fragen')->components([
+                        Repeater::make('questions')
+                            ->hiddenLabel()
+                            ->relationship('questions')
+                            ->collapsed()
+                            ->collapsible()
+                            ->orderColumn('order')
+                            ->addActionLabel('Frage hinzufügen')
+                            ->itemLabel(fn (array $state) => $state['display_name'])
+                            ->columnSpanFull()
+                            ->columns(2)
+                            ->components([
+                                TextInput::make('display_name')
+                                    ->label('Label')
+                                    ->live()
+                                    ->required(),
+
+                                Select::make('type')
+                                    ->label('Typ')
+                                    ->enum(SurveyQuestionType::class)
+                                    ->options(SurveyQuestionType::class)
+
+                                    ->live()
+                                    ->partiallyRenderComponentsAfterStateUpdated(['options'])
+                                    ->required(),
+
+                                Repeater::make('options')
+                                    ->label('Optionen')
+                                    ->columnSpanFull()
+                                    ->visible(fn (Get $get) => $get('type')?->hasOptions())
+                                    ->minItems(1)
+                                    ->defaultItems(1)
+                                    ->addActionLabel('Option hinzufügen')
+                                    ->simple(
+                                        TextInput::make('option')->label('Option')
+                                    ),
+                            ]),
+                    ]),
+                ]),
             ]);
     }
 
@@ -123,9 +143,11 @@ class SurveyResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                ViewAction::make()
+                Action::make('view_results')
                     ->label('Ergebnisse')
-                    ->icon(Phosphor::ChartScatterDuotone),
+                    ->color('secondary')
+                    ->icon(Phosphor::ChartScatterDuotone)
+                    ->url(fn (Survey $record) => SurveyResource::getUrl('results', ['record' => $record->id])),
 
                 DeleteAction::make(),
                 RestoreAction::make(),
