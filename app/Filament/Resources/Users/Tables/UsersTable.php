@@ -6,9 +6,11 @@ use App\Enums\Role;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Facades\Filament;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use STS\FilamentImpersonate\Actions\Impersonate;
 
 class UsersTable
 {
@@ -40,6 +42,8 @@ class UsersTable
             ])
             ->recordActions([
                 EditAction::make(),
+                Impersonate::make()
+                    ->redirectTo(Filament::getPanel('exhibitor')->getUrl()),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
