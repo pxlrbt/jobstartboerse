@@ -17,4 +17,11 @@ enum Role: int implements HasLabel
             self::Exhibitor => 'Aussteller',
         };
     }
+
+    public static function toOptions(): array
+    {
+        return collect(self::cases())
+            ->mapWithKeys(fn ($item) => [$item->value => $item->getLabel()])
+            ->toArray();
+    }
 }

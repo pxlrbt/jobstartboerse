@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Filament\Resources\Users\Schemas;
+
+use App\Enums\Role;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+
+class UserForm
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Select::make('exhibitor_id')
+                    ->label('Aussteller')
+                    ->relationship('exhibitor', 'display_name'),
+
+                Select::make('role')
+                    ->label('Rolle')
+                    ->options(Role::class)
+                    ->required(),
+
+                TextInput::make('name')
+                    ->label('Name')
+                    ->required(),
+
+                TextInput::make('email')
+                    ->label('E-Mail')
+                    ->email()
+                    ->required(),
+
+                TextInput::make('password')
+                    ->label('Passwort')
+                    ->validationAttribute(__('filament-panels::auth/pages/edit-profile.form.password.validation_attribute'))
+                    ->password()
+                    ->revealable(filament()->arePasswordsRevealable())
+                    ->rule(Password::default())
+                    ->showAllValidationMessages()
+                    ->autocomplete('new-password')
+                    ->dehydrated(fn ($state): bool => filled($state))
+                    ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
+                    ->live(debounce: 500)
+                    ->same('passwordConfirmation'),
+
+                TextInput::make('passwordConfirmation')
+                    ->label(__('filament-panels::auth/pages/edit-profile.form.password_confirmation.label'))
+                    ->validationAttribute(__('filament-panels::auth/pages/edit-profile.form.password_confirmation.validation_attribute'))
+                    ->password()
+                    ->autocomplete('new-password')
+                    ->revealable(filament()->arePasswordsRevealable())
+                    ->required()
+                    ->visible(fn (Get $get): bool => filled($get('password')))
+                    ->dehydrated(false),
+            ]);
+    }
+}
