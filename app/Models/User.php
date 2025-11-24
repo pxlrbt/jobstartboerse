@@ -75,6 +75,6 @@ class User extends Authenticatable implements FilamentUser
 
     public function canBeImpersonated(): bool
     {
-        return $this->role !== Role::Admin;
+        return true;
     }
 }
