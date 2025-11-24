@@ -37,20 +37,24 @@ class ViewSurveyResults extends ViewRecord
         $survey->load('questions.answers');
         $components = $survey->questions
             ->map($this->getWidgetForQuestion(...))
-            ->filter()
+            ->flatten()
             ->toArray();
 
-        return $schema->components([
-            Section::make('Statistik')->collapsible(false)->columns(2)->schema([
-                TextEntry::make('count')
-                    ->label('Teilnehmer')
-                    ->state($survey->submissions()->count()),
+        return $schema->columns(2)->components([
+            Section::make()
+                ->collapsible(false)
+                ->columns(2)
+                ->columnSpanFull()
+                ->schema([
+                    TextEntry::make('count')
+                        ->label('Teilnehmer')
+                        ->state($survey->submissions()->count()),
 
-                TextEntry::make('created_at')
-                    ->label('Letzte Teilnahme')
-                    ->dateTime('d.m.Y H:i')
-                    ->state($survey->submissions()->latest()->first()?->created_at),
-            ]),
+                    TextEntry::make('created_at')
+                        ->label('Letzte Teilnahme')
+                        ->dateTime('d.m.Y H:i')
+                        ->state($survey->submissions()->latest()->first()?->created_at),
+                ]),
             ...$components,
         ]);
     }
@@ -58,19 +62,22 @@ class ViewSurveyResults extends ViewRecord
     protected function getWidgetForQuestion(SurveyQuestion $question)
     {
         if ($question->type === SurveyQuestionType::Text) {
-            return Section::make($question->display_name)->components([
-                RepeatableEntry::make('answers')
-                    ->label($question->display_name)
-                    ->state($question->answers)
-                    ->components([
-                        TextEntry::make('content')->hiddenLabel(),
-                    ]),
-            ]);
+            return Section::make($question->display_name)
+                ->columnSpanFull()
+                ->components([
+                    RepeatableEntry::make('answers')
+                        ->hiddenLabel()
+                        ->state($question->answers)
+                        ->components([
+                            TextEntry::make('content')->hiddenLabel(),
+                        ]),
+                ]);
         }
 
-        return Livewire::make(
-            SurveyQuestionWidget::class, ['question' => $question]
-        )->key($question->id);
+        return
+            Livewire::make(
+                SurveyQuestionWidget::class, ['question' => $question, 'type' => 'bar']
+            )->key($question->id.'-bar')->columnSpanFull();
     }
 
     protected function getHeaderActions(): array

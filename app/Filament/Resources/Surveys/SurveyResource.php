@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Surveys;
 
 use App\Enums\SurveyQuestionType;
 use App\Filament\Enums\NavigationGroup;
+use App\Filament\Resources\Surveys\Pages\EditSurvey;
 use App\Models\Survey;
 use BackedEnum;
 use Filafly\Icons\Phosphor\Enums\Phosphor;
@@ -96,6 +97,7 @@ class SurveyResource extends Resource
 
                                 Select::make('type')
                                     ->label('Typ')
+                                    ->disabled(fn (EditSurvey $livewire) => $livewire->getRecord()->submissions()->exists())
                                     ->enum(SurveyQuestionType::class)
                                     ->options(SurveyQuestionType::class)
 

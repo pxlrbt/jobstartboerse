@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\SurveyQuestionType;
 use Database\Factories\SurveyQuestionFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,9 +22,19 @@ class SurveyAnswer extends Model
     protected function casts(): array
     {
         return [
-            'question_type' => SurveyQuestionType::class,
+            // 'question_type' => SurveyQuestionType::class,
             'content' => 'json',
         ];
+    }
+
+    protected function textContent(): Attribute
+    {
+        return Attribute::get(function ($value, array $attributes) {
+            return match ($this->question->type) {
+                SurveyQuestionType::Toggle => $this->content ? 'Ja' : 'Nein',
+                default => $this->content
+            };
+        });
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Surveys\Widgets;
 
 use App\Models\SurveyQuestion;
+use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Contracts\Support\Htmlable;
 
@@ -10,9 +11,11 @@ class SurveyQuestionWidget extends ChartWidget
 {
     public SurveyQuestion $question;
 
+    public string $type = 'pie';
+
     protected bool $isCollapsible = true;
 
-    protected ?string $maxHeight = '15rem';
+    // protected ?string $maxHeight = '15rem';
 
     public function getHeading(): string|Htmlable|null
     {
@@ -23,7 +26,7 @@ class SurveyQuestionWidget extends ChartWidget
     {
         $this->question->loadMissing('answers');
 
-        $answers = $this->question->answers->groupBy('content');
+        $answers = $this->question->answers->groupBy('textContent');
         $answers = $answers->map(fn ($answer) => $answer->count());
 
         $values = $answers->values();
@@ -34,15 +37,24 @@ class SurveyQuestionWidget extends ChartWidget
                 [
                     'label' => 'Antworten',
                     'data' => $values->toArray(),
+
                     'backgroundColor' => [
-                        '#6B9AC4',
-                        '#98B8A8',
-                        '#E8B298',
-                        '#B8A6D0',
-                        '#F4C6A3',
-                        '#8EB1C7',
-                        '#C4A8A4',
-                        '#A8C5A0',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)',
+                    ],
+                    'borderColor' => [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                        'rgb(201, 203, 207)',
                     ],
                 ],
             ],
@@ -50,8 +62,21 @@ class SurveyQuestionWidget extends ChartWidget
         ];
     }
 
+    protected function getOptions(): array|RawJs|null
+    {
+        return [
+            'indexAxis' => 'y',
+            // 'barThickness' => 24,
+            // 'borderWidth' => 1,
+            // 'borderRadius' => 3,
+            'skipNull' => false,
+            // 'aspectRatio' => 5,
+            'maintainAspectRatio' => true,
+        ];
+    }
+
     protected function getType(): string
     {
-        return 'bar';
+        return $this->type;
     }
 }
