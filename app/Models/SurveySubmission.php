@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Database\Factories\SurveyFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SurveySubmission extends Model
 {
     /**
-     * @use HasFactory<SurveyFactory>
+     * @use HasFactory<SurveySubmissionFactory>
      */
     use HasFactory;
 

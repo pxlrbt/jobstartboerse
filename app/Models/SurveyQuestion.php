@@ -6,6 +6,7 @@ use App\Enums\SurveyQuestionType;
 use Database\Factories\SurveyQuestionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SurveyQuestion extends Model
@@ -25,5 +26,13 @@ class SurveyQuestion extends Model
             'starts_at' => 'datetime',
             'ends_at' => 'datetime',
         ];
+    }
+
+    /**
+     * @return HasMany<SurveyAnswer, $this>
+     */
+    public function answers(): HasMany
+    {
+        return $this->hasMany(SurveyAnswer::class);
     }
 }

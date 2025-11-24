@@ -23,6 +23,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Livewire\Livewire;
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 
 class ExhibitorPanelProvider extends PanelProvider
 {
@@ -77,6 +78,7 @@ class ExhibitorPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
 
+            ->plugin(EnvironmentIndicatorPlugin::make())
             ->plugin(PhosphorIcons::make()->duotone());
     }
 }

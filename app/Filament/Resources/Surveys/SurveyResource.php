@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Surveys;
 
 use App\Enums\SurveyQuestionType;
 use App\Filament\Enums\NavigationGroup;
-use App\Filament\Resources\SurveyResource\Pages;
 use App\Models\Survey;
 use BackedEnum;
 use Filafly\Icons\Phosphor\Enums\Phosphor;
@@ -16,6 +15,7 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -113,12 +113,20 @@ class SurveyResource extends Resource
                 TextColumn::make('ends_at')
                     ->label('Bis')
                     ->date(),
+
+                TextColumn::make('submissions_count')
+                    ->label('Teilnehmer')
+                    ->counts('submissions'),
             ])
             ->filters([
                 TrashedFilter::make(),
             ])
             ->recordActions([
                 EditAction::make(),
+                ViewAction::make()
+                    ->label('Ergebnisse')
+                    ->icon(Phosphor::ChartScatterDuotone),
+
                 DeleteAction::make(),
                 RestoreAction::make(),
                 ForceDeleteAction::make(),
@@ -138,6 +146,7 @@ class SurveyResource extends Resource
             'index' => Pages\ListSurveys::route('/'),
             'create' => Pages\CreateSurvey::route('/create'),
             'edit' => Pages\EditSurvey::route('/{record}/edit'),
+            'results' => Pages\ViewSurveyResults::route('/{record}'),
         ];
     }
 

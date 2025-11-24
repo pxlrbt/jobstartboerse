@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\SurveyResource\Pages;
+namespace App\Filament\Resources\Surveys\Pages;
 
-use App\Filament\Resources\SurveyResource;
+use App\Filament\Resources\Surveys\SurveyResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateSurvey extends CreateRecord

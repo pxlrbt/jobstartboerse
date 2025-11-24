@@ -31,14 +31,14 @@ class SurveyAnswer extends Model
      */
     public function question(): BelongsTo
     {
-        return $this->belongsTo(SurveyQuestion::class);
+        return $this->belongsTo(SurveyQuestion::class, 'survey_question_id');
     }
 
     /**
      * @return BelongsTo<SurveySubmission, $this>
      */
-    public function result(): BelongsTo
+    public function submission(): BelongsTo
     {
-        return $this->belongsTo(SurveySubmission::class);
+        return $this->belongsTo(SurveySubmission::class, 'survey_submission_id');
     }
 }
