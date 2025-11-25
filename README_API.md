@@ -2,6 +2,8 @@
 
 Simple REST API for the Jobstartbörse application.
 
+Last Update: 26.11.2025
+
 ## Base URL
 
 ```
@@ -10,17 +12,15 @@ Simple REST API for the Jobstartbörse application.
 
 ## Authentication
 
-All API requests require an API key passed as a query parameter:
+All API requests require an API key passed via the Authorization header as a Bearer token:
 
 ```
-?api_key=your_api_key_here
+Authorization: Bearer your_api_key_here
 ```
-
-The API key is configured in `config/jobstartboerse.php` under `api.key`.
 
 **Example:**
-```
-GET /api/job-fairs?api_key=your_api_key_here
+```bash
+curl -H "Authorization: Bearer your_api_key_here" https://example.com/api/job-fairs
 ```
 
 ## Endpoints
@@ -64,8 +64,9 @@ Returns a single job fair with optional includes.
   - `school_registrations` - School registrations
 
 **Example:**
-```
-GET /api/job-fairs/1?api_key=your_api_key_here&include=exhibitors,professions
+```bash
+curl -H "Authorization: Bearer your_api_key_here" \
+  "https://example.com/api/job-fairs/1?include=exhibitors,professions"
 ```
 
 ### School Registration
@@ -77,6 +78,35 @@ POST /api/job-fairs/{id}/school-registration
 ```
 
 Register a school and classes for a job fair. Only available for public job fairs.
+
+**Example:**
+```bash
+curl -X POST \
+  -H "Authorization: Bearer your_api_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "school_name": "Example School",
+    "school_type": "Gymnasium",
+    "school_zipcode": "12345",
+    "school_city": "Berlin",
+    "teacher": "John Doe",
+    "teacher_email": "john@example.com",
+    "teacher_phone": "+49123456789",
+    "classes": [
+      {
+        "name": "10a",
+        "time": "09:00-10:30",
+        "students_count": 25
+      },
+      {
+        "name": "10b",
+        "time": "10:30-12:00",
+        "students_count": 28
+      }
+    ]
+  }' \
+  https://example.com/api/job-fairs/1/school-registration
+```
 
 **Request Body:**
 ```json

@@ -23,9 +23,8 @@ it('fails with wrong api_key', function () {
     $middleware = new AuthenticateWithTokenMiddleware;
 
     $response = new Response;
-    $request = Request::create('/test', 'GET', [
-        'api_key' => 'wrong key',
-    ]);
+    $request = Request::create('/test', 'GET');
+    $request->headers->set('Authorization', 'Bearer wrong key');
 
     $middleware->handle($request, function ($req) use ($response) {
         return $response;
@@ -38,9 +37,8 @@ it('passed with right api_key', function () {
     $middleware = new AuthenticateWithTokenMiddleware;
 
     $response = new Response;
-    $request = Request::create('/test', 'GET', [
-        'api_key' => config('jobstartboerse.api.key'),
-    ]);
+    $request = Request::create('/test', 'GET');
+    $request->headers->set('Authorization', 'Bearer '.config('jobstartboerse.api.key'));
 
     $middleware->handle($request, function ($req) use ($response) {
         return $response;

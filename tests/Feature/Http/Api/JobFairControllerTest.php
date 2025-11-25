@@ -35,7 +35,7 @@ it('lists only public job fairs with valid api key', function () {
         ->create(['is_public' => false]);
 
     // Act
-    $response = $this->getJson('/api/job-fairs?api_key=test-key');
+    $response = $this->getJson('/api/job-fairs', ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()
@@ -54,7 +54,7 @@ it('includes dates and locations in list response', function () {
         ->create(['is_public' => true]);
 
     // Act
-    $response = $this->getJson('/api/job-fairs?api_key=test-key');
+    $response = $this->getJson('/api/job-fairs', ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()
@@ -91,7 +91,7 @@ it('includes exhibitors count in list response', function () {
     $jobFair->exhibitors()->attach($exhibitors);
 
     // Act
-    $response = $this->getJson('/api/job-fairs?api_key=test-key');
+    $response = $this->getJson('/api/job-fairs', ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()
@@ -108,7 +108,7 @@ it('shows single job fair with valid api key', function () {
         ->create();
 
     // Act
-    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key");
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}", ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()
@@ -131,7 +131,7 @@ it('returns 404 for non-existent job fair', function () {
     config()->set('jobstartboerse.api.key', 'test-key');
 
     // Act
-    $response = $this->getJson('/api/job-fairs/999999?api_key=test-key');
+    $response = $this->getJson('/api/job-fairs/999999', ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertNotFound();
@@ -150,7 +150,7 @@ it('includes exhibitors when requested and are_exhibitors_public is true', funct
     $jobFair->exhibitors()->attach($exhibitor);
 
     // Act
-    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key&include=exhibitors");
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?include=exhibitors", ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()
@@ -177,7 +177,7 @@ it('does not include exhibitors when are_exhibitors_public is false', function (
     $jobFair->exhibitors()->attach($exhibitor);
 
     // Act
-    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key&include=exhibitors");
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?include=exhibitors", ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()
@@ -195,7 +195,7 @@ it('includes school registrations when requested', function () {
         ->create();
 
     // Act
-    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key&include=school_registrations");
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?include=school_registrations", ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()
@@ -230,7 +230,7 @@ it('includes degrees when requested', function () {
         ]);
 
     // Act
-    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key&include=degrees");
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?include=degrees", ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()
@@ -261,7 +261,7 @@ it('includes professions when requested', function () {
         ]);
 
     // Act
-    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key&include=professions");
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?include=professions", ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()
@@ -292,7 +292,7 @@ it('includes lounge_participations when requested', function () {
         ]);
 
     // Act
-    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key&include=lounge_participations");
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?include=lounge_participations", ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()
@@ -327,7 +327,7 @@ it('handles multiple includes via comma-separated query param', function () {
     $jobFair->exhibitors()->attach($exhibitor);
 
     // Act
-    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key&include=exhibitors,school_registrations");
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?include=exhibitors,school_registrations", ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertSuccessful()

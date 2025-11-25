@@ -14,7 +14,9 @@ class AuthenticateWithTokenMiddleware
 
         abort_if(blank($apiKey), Response::HTTP_INTERNAL_SERVER_ERROR, 'No API key configured');
 
-        abort_if($request->get('api_key') !== $apiKey, Response::HTTP_UNAUTHORIZED);
+        $token = $request->bearerToken();
+
+        abort_if($token !== $apiKey, Response::HTTP_UNAUTHORIZED);
 
         return $next($request);
     }

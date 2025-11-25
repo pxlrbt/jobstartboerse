@@ -53,7 +53,7 @@ it('creates school registration with valid data', function () {
     ];
 
     // Act
-    $response = $this->postJson("/api/job-fairs/{$jobFair->id}/school-registration?api_key=test-key", $data);
+    $response = $this->postJson("/api/job-fairs/{$jobFair->id}/school-registration", $data, ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertCreated()
@@ -112,7 +112,7 @@ it('validates school registration fields', function (array $invalidData, string 
     $data = array_merge($baseData, $invalidData);
 
     // Act
-    $response = $this->postJson("/api/job-fairs/{$jobFair->id}/school-registration?api_key=test-key", $data);
+    $response = $this->postJson("/api/job-fairs/{$jobFair->id}/school-registration", $data, ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertUnprocessable()
@@ -192,7 +192,7 @@ it('returns 404 when job fair does not exist', function () {
     ];
 
     // Act
-    $response = $this->postJson('/api/job-fairs/999999/school-registration?api_key=test-key', $data);
+    $response = $this->postJson('/api/job-fairs/999999/school-registration', $data, ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertNotFound();
@@ -219,7 +219,7 @@ it('returns 404 when job fair is not public', function () {
     ];
 
     // Act
-    $response = $this->postJson("/api/job-fairs/{$jobFair->id}/school-registration?api_key=test-key", $data);
+    $response = $this->postJson("/api/job-fairs/{$jobFair->id}/school-registration", $data, ['Authorization' => 'Bearer test-key']);
 
     // Assert
     $response->assertNotFound();
