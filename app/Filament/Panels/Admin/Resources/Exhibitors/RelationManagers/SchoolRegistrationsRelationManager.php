@@ -2,7 +2,6 @@
 
 namespace App\Filament\Panels\Admin\Resources\Exhibitors\RelationManagers;
 
-use App\Models\SchoolRegistration;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -80,6 +79,7 @@ class SchoolRegistrationsRelationManager extends RelationManager
                 Fieldset::make()->columnSpanFull()->contained(false)->schema([
                     Repeater::make('classes')
                         ->label('Schulklassen')
+                        ->relationship('classes')
                         ->columnSpanFull()
                         ->minItems(1)
                         ->addActionLabel('Klasse hinzufügen')
@@ -112,11 +112,12 @@ class SchoolRegistrationsRelationManager extends RelationManager
 
                 TextColumn::make('classes_count')
                     ->label('Klassen')
-                    ->getStateUsing(fn (SchoolRegistration $record) => count($record->classes))
+                    ->counts('classes')
                     ->badge(),
 
-                TextColumn::make('students_count')
+                TextColumn::make('classes_sum_students_count')
                     ->label('Schüler')
+                    ->sum('classes', 'students_count')
                     ->badge(),
             ])
             ->filters([

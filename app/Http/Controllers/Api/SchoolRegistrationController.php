@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\DataObjects\SchoolRegistrationClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreSchoolRegistrationRequest;
 use App\Http\Resources\SchoolRegistrationResource;
@@ -17,13 +16,6 @@ class SchoolRegistrationController extends Controller
         /** @var array<int, array<string, mixed>> $classesData */
         $classesData = $request->validated('classes');
 
-        $classes = collect($classesData)
-            ->map(fn (array $class) => new SchoolRegistrationClass(
-                name: (string) $class['name'],
-                time: (string) $class['time'],
-                students_count: $class['students_count']
-            ));
-
         $schoolRegistration = SchoolRegistration::query()->create([
             'job_fair_id' => $jobFair->id,
             'school_name' => $request->validated('school_name'),
@@ -33,10 +25,17 @@ class SchoolRegistrationController extends Controller
             'teacher' => $request->validated('teacher'),
             'teacher_email' => $request->validated('teacher_email'),
             'teacher_phone' => $request->validated('teacher_phone'),
-            'classes' => $classes,
         ]);
 
-        return new SchoolRegistrationResource($schoolRegistration)
+        foreach ($classesData as $classData) {
+            $schoolRegistration->classes()->create([
+                'name' => $classData['name'],
+                'time' => $classData['time'],
+                'students_count' => $classData['students_count'],
+            ]);
+        }
+
+        return new SchoolRegistrationResource($schoolRegistration->load('classes'))
             ->response()
             ->setStatusCode(201);
     }

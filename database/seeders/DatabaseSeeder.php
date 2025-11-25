@@ -15,6 +15,7 @@ use App\Models\Mailing;
 use App\Models\MailTemplate;
 use App\Models\Profession;
 use App\Models\SchoolRegistration;
+use App\Models\SchoolRegistrationClass;
 use App\Models\Survey;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyQuestion;
@@ -35,7 +36,11 @@ class DatabaseSeeder extends Seeder
         $pastJobFairs = JobFair::factory()
             ->has(Location::factory(), 'locations')
             ->has(JobFairDate::factory()->past(), 'dates')
-            ->has(SchoolRegistration::factory()->count(2))
+            ->has(
+                SchoolRegistration::factory()
+                    ->has(SchoolRegistrationClass::factory()->count(3), 'classes')
+                    ->count(2)
+            )
             ->count(3)
             ->create();
 
@@ -43,7 +48,11 @@ class DatabaseSeeder extends Seeder
         $futureJobFairs = JobFair::factory()
             ->has(Location::factory(), 'locations')
             ->has(JobFairDate::factory(), 'dates')
-            ->has(SchoolRegistration::factory()->count(2))
+            ->has(
+                SchoolRegistration::factory()
+                    ->has(SchoolRegistrationClass::factory()->count(3), 'classes')
+                    ->count(2)
+            )
             ->count(5)
             ->create();
 
