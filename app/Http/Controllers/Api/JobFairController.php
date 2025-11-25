@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\JobFairResource;
 use App\Models\JobFair;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class JobFairController extends Controller
 {
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $jobFairs = JobFair::query()
             ->where('is_public', true)

@@ -6,6 +6,7 @@ use App\DataObjects\Attachment;
 use App\Models\Pivot\ExhibitorRegistration;
 use Database\Factories\JobFairFactory;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -63,6 +64,36 @@ class JobFair extends Model
                 'needs_power',
                 'internal_note',
             ]);
+    }
+
+    /**
+     * @return Collection<int, Profession>
+     */
+    public function professions(): Collection
+    {
+        return Profession::query()
+            ->whereHas('exhibitors', fn ($query) => $query
+                ->whereIn('exhibitors.id', fn ($query) => $query
+                    ->select('exhibitor_job_fair.exhibitor_id')
+                    ->from('exhibitor_job_fair')
+                    ->where('exhibitor_job_fair.job_fair_id', $this->id)
+                ))
+            ->get();
+    }
+
+    /**
+     * @return Collection<int, Degree>
+     */
+    public function degrees(): Collection
+    {
+        return Degree::query()
+            ->whereHas('exhibitors', fn ($query) => $query
+                ->whereIn('exhibitors.id', fn ($query) => $query
+                    ->select('exhibitor_job_fair.exhibitor_id')
+                    ->from('exhibitor_job_fair')
+                    ->where('exhibitor_job_fair.job_fair_id', $this->id)
+                ))
+            ->get();
     }
 
     /**

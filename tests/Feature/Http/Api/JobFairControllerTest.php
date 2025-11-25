@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Degree;
 use App\Models\Exhibitor;
 use App\Models\JobFair;
 use App\Models\JobFairDate;
 use App\Models\Location;
+use App\Models\Profession;
 use App\Models\SchoolRegistration;
 
 it('returns 401 without valid api key', function () {
@@ -212,6 +214,68 @@ it('includes school registrations when requested', function () {
             ],
         ])
         ->assertJsonCount(2, 'data.school_registrations');
+});
+
+it('includes degrees when requested', function () {
+    // Arrange
+    config()->set('jobstartboerse.api.key', 'test-key');
+
+    $jobFair = JobFair::factory()
+        ->has(Location::factory(), 'locations')
+        ->has(JobFairDate::factory(), 'dates')
+        ->has(Exhibitor::factory()->has(Degree::factory()))
+        ->create([
+            'are_exhibitors_public' => true,
+        ]);
+
+    // Act
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key&include=degrees");
+
+    // Assert
+    $response->assertSuccessful()
+        ->assertJsonStructure([
+            'data' => [
+                'degrees' => [
+                    '*' => [
+                        'id',
+                        'slug',
+                        'display_name',
+                    ],
+                ],
+            ],
+        ])
+        ->assertJsonCount(1, 'data.degrees');
+});
+
+it('includes professions when requested', function () {
+    // Arrange
+    config()->set('jobstartboerse.api.key', 'test-key');
+
+    $jobFair = JobFair::factory()
+        ->has(Location::factory(), 'locations')
+        ->has(JobFairDate::factory(), 'dates')
+        ->has(Exhibitor::factory()->has(Profession::factory()))
+        ->create([
+            'are_exhibitors_public' => true,
+        ]);
+
+    // Act
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key&include=professions");
+
+    // Assert
+    $response->assertSuccessful()
+        ->assertJsonStructure([
+            'data' => [
+                'professions' => [
+                    '*' => [
+                        'id',
+                        'slug',
+                        'display_name',
+                    ],
+                ],
+            ],
+        ])
+        ->assertJsonCount(1, 'data.professions');
 });
 
 it('handles multiple includes via comma-separated query param', function () {

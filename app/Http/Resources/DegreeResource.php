@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-use App\Models\JobFairDate;
+use App\Models\Degree;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin JobFairDate */
-class JobFairDateResource extends JsonResource
+/** @mixin Degree */
+class DegreeResource extends JsonResource
 {
     /**
      * @return array<string, mixed>
@@ -16,9 +16,8 @@ class JobFairDateResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'date' => $this->date->format('Y-m-d'),
-            'starts_at' => $this->starts_at,
-            'ends_at' => $this->ends_at,
+            'slug' => $this->slug,
+            'display_name' => $this->display_name,
         ];
     }
 }
