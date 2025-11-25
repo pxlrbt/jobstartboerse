@@ -2,6 +2,6 @@
 
 return [
     'api' => [
-        'key' => config('API_KEY'),
+        'key' => env('API_KEY'),
     ],
 ];
