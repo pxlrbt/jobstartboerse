@@ -4,6 +4,8 @@ namespace App\Filament\Panels\Admin\Resources\Exhibitors\Pages;
 
 use App\Filament\Panels\Admin\Resources\Exhibitors\ExhibitorResource;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditExhibitor extends EditRecord
@@ -14,6 +16,8 @@ class EditExhibitor extends EditRecord
     {
         return [
             DeleteAction::make(),
+            RestoreAction::make(),
+            ForceDeleteAction::make(),
         ];
     }
 

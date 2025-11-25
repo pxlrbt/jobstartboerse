@@ -18,6 +18,11 @@ class EditProfile extends \Filament\Auth\Pages\EditProfile
 {
     protected static bool $isDiscovered = true;
 
+    public static function isSimple(): bool
+    {
+        return false;
+    }
+
     protected static ?string $navigationLabel = 'Benutzer-Profil';
 
     protected static string|BackedEnum|null $navigationIcon = Phosphor::UserCircleDuotone;

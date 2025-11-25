@@ -7,7 +7,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DetachAction;
 use Filament\Actions\DetachBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
@@ -30,7 +30,7 @@ class ProfessionRelationManager extends RelationManager
         return $schema
             ->columns(1)
             ->components([
-                Checkbox::make('offers_internship')
+                Toggle::make('offers_internship')
                     ->label('Praktikum möglich'),
             ]);
     }
@@ -53,7 +53,7 @@ class ProfessionRelationManager extends RelationManager
                     ->schema(fn (AttachAction $action) => [
                         $action->getRecordSelect(),
 
-                        Checkbox::make('offers_internship')
+                        Toggle::make('offers_internship')
                             ->label('Praktikum möglich'),
                     ])
                     ->preloadRecordSelect()

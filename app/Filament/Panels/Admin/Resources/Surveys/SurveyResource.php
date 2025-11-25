@@ -101,7 +101,11 @@ class SurveyResource extends Resource
 
                                 Select::make('type')
                                     ->label('Typ')
-                                    ->disabled(function (EditSurvey $livewire) {
+                                    ->disabled(function ($livewire) {
+                                        if ($livewire instanceof CreateSurvey) {
+                                            return false;
+                                        }
+
                                         /** @var Survey $record */
                                         $record = $livewire->getRecord();
 

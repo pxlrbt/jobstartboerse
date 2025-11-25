@@ -13,18 +13,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ExhibitorFactory extends Factory
 {
-    public function configure()
-    {
-        return $this->afterCreating(function (Exhibitor $exhibitor) {
-
-            // dd($exhibitor->address());
-            $exhibitor->address->update(['exhibitor_id' => $exhibitor->id]);
-            $exhibitor->billingAddress->update(['exhibitor_id' => $exhibitor->id]);
-            $exhibitor->contactPerson->update(['exhibitor_id' => $exhibitor->id]);
-            $exhibitor->billingContactPerson->update(['exhibitor_id' => $exhibitor->id]);
-        });
-    }
-
     /**
      * @return array<string, mixed>
      */

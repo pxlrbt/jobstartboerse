@@ -114,7 +114,8 @@ class JobFairForm
                                 ->placeholder('https://'),
 
                             FileUpload::make('floor_plan_file')
-                                ->label('Upload'),
+                                ->label('Upload')
+                                ->downloadable(),
                         ]),
                     ]),
 
@@ -123,16 +124,21 @@ class JobFairForm
                             Repeater::make('attachments')
                                 ->label('Anhänge')
                                 ->columns(3)
+                                ->defaultItems(0)
                                 ->addActionLabel('Anhang hinzufügen')
                                 ->schema([
                                     FileUpload::make('file')
-                                        ->label('Datei'),
+                                        ->label('Datei')
+                                        ->downloadable()
+                                        ->required(),
 
                                     TextInput::make('display_name')
-                                        ->label('Titel'),
+                                        ->label('Titel')
+                                        ->required(),
 
                                     Radio::make('category')
                                         ->label('Titel')
+                                        ->required()
                                         ->options([
                                             1 => 'Besucher',
                                             2 => 'Aussteller',
@@ -149,11 +155,13 @@ class JobFairForm
                             FileUpload::make('lounge_files_students')
                                 ->label('Infos Schüler')
                                 ->multiple()
+                                ->downloadable()
                                 ->acceptedFileTypes(['application/pdf']),
 
                             FileUpload::make('lounge_files_exhibitors')
                                 ->label('Infos Aussteller')
                                 ->multiple()
+                                ->downloadable()
                                 ->acceptedFileTypes(['application/pdf']),
                         ]),
                     ]),

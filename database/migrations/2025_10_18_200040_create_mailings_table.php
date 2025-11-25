@@ -20,8 +20,8 @@ return new class extends Migration
 
         Schema::create('mailing_exhibitor', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Mailing::class);
-            $table->foreignIdFor(Exhibitor::class);
+            $table->foreignIdFor(Mailing::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Exhibitor::class)->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('email');
             $table->timestamps();

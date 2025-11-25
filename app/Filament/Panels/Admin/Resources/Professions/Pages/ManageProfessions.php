@@ -5,6 +5,7 @@ namespace App\Filament\Panels\Admin\Resources\Professions\Pages;
 use App\Filament\Panels\Admin\Resources\Professions\ProfessionResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
+use Filament\Support\Enums\Width;
 
 class ManageProfessions extends ManageRecords
 {
@@ -13,12 +14,7 @@ class ManageProfessions extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()
-                ->mutateDataUsing(function (array $data) {
-                    $data['slug'] = str()->slug($data['display_name']);
-
-                    return $data;
-                }),
+            CreateAction::make()->modalWidth(Width::Large),
         ];
     }
 }

@@ -7,12 +7,12 @@ use App\Filament\Panels\Admin\Resources\Degrees\Schemas\DegreeForm;
 use App\Filament\Panels\Admin\Resources\Degrees\Tables\DegreesTable;
 use Filament\Actions\AttachAction;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
 use Filament\Actions\DetachAction;
 use Filament\Actions\DetachBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Table;
 
 class DegreesRelationManager extends RelationManager
@@ -30,11 +30,14 @@ class DegreesRelationManager extends RelationManager
     {
         return DegreesTable::configure($table)
             ->headerActions([
-                CreateAction::make(),
-                AttachAction::make()->multiple(),
+                AttachAction::make()
+                    ->modalWidth(Width::Large)
+                    ->multiple(),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->modalWidth(Width::Large),
+
                 DetachAction::make(),
             ])
             ->toolbarActions([

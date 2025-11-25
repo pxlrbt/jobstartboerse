@@ -13,12 +13,10 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('exhibitor_id')->nullable();
-
             $table->string('name')->nullable();
-            $table->string('street');
-            $table->string('zipcode');
-            $table->string('city');
+            $table->string('street')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('city')->nullable();
 
             $table->timestamps();
         });
@@ -26,11 +24,9 @@ return new class extends Migration
         Schema::create('contact_people', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('exhibitor_id')->nullable();
-
             $table->string('title')->nullable();
             $table->string('first_name')->nullable();
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
 
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
@@ -68,6 +64,11 @@ return new class extends Migration
 
             $table
                 ->foreignIdFor(ContactPerson::class, 'billing_contact_person_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table
+                ->foreignIdFor(ContactPerson::class, 'lounge_contact_person_id')
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete();

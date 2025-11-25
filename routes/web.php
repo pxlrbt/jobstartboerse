@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Exhibitor;
+use App\Models\JobFair;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
-    $exhibitor = Exhibitor::first();
-
-    dd($exhibitor->billingAddress->name, $exhibitor->address->name);
+    JobFair::query()
+        ->orderBy('created_at', 'desc')
+        ->pluck('display_name', 'id')->dd();
 });

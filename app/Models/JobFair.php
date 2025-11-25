@@ -20,6 +20,17 @@ class JobFair extends Model
 
     use SoftDeletes;
 
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::saving(function (JobFair $model) {
+            $model->display_name = $model->locations->first()->display_name
+                .' • '
+                .$model->dates->first()->date->format('Y');
+        });
+    }
+
     /**
      * @return array{
      *     attachments: 'AsCollection::of(Attachment::class)',
@@ -110,13 +121,5 @@ class JobFair extends Model
     public function schoolRegistrations(): HasMany
     {
         return $this->hasMany(SchoolRegistration::class);
-    }
-
-    public function refreshDisplayName(): void
-    {
-        $location = $this->locations()->first();
-        $date = $this->dates()->first();
-
-        $this->update(['display_name' => "{$location->city} • {$date->date->format('Y')}"]);
     }
 }

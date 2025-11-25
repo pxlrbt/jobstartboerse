@@ -81,6 +81,7 @@ class SchoolRegistrationsRelationManager extends RelationManager
                     Repeater::make('classes')
                         ->label('Schulklassen')
                         ->columnSpanFull()
+                        ->minItems(1)
                         ->addActionLabel('Klasse hinzufügen')
                         ->table([
                             Repeater\TableColumn::make('Klasse')->alignLeft(),

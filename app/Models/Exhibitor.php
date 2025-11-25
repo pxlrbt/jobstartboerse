@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Exhibitor extends Model
 {
@@ -17,6 +18,19 @@ class Exhibitor extends Model
      * @use HasFactory<ExhibitorFactory>
      */
     use HasFactory;
+
+    use SoftDeletes;
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->slug = str()->slug($model->display_name);
+
+            return $model;
+        });
+    }
 
     /**
      * @return array{
@@ -68,6 +82,14 @@ class Exhibitor extends Model
     public function billingContactPerson(): BelongsTo
     {
         return $this->belongsTo(ContactPerson::class, 'billing_contact_person_id');
+    }
+
+    /**
+     * @return BelongsTo<ContactPerson, $this>
+     */
+    public function loungeContactPerson(): BelongsTo
+    {
+        return $this->belongsTo(ContactPerson::class, 'lounge_contact_person_id');
     }
 
     /**

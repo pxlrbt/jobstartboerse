@@ -3,6 +3,7 @@
 namespace App\Filament\Panels\Admin\Resources\Users\Schemas;
 
 use App\Enums\Role;
+use App\Filament\Panels\Admin\Resources\Users\Pages\CreateUser;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
@@ -18,7 +19,9 @@ class UserForm
             ->components([
                 Select::make('exhibitor_id')
                     ->label('Aussteller')
-                    ->relationship('exhibitor', 'display_name'),
+                    ->relationship('exhibitor', 'display_name')
+                    ->searchable()
+                    ->preload(),
 
                 Select::make('role')
                     ->label('Rolle')
@@ -32,12 +35,14 @@ class UserForm
                 TextInput::make('email')
                     ->label('E-Mail')
                     ->email()
+                    ->unique()
                     ->required(),
 
                 TextInput::make('password')
                     ->label('Passwort')
                     ->validationAttribute(__('filament-panels::auth/pages/edit-profile.form.password.validation_attribute'))
                     ->password()
+                    ->required(fn ($livewire) => $livewire instanceof CreateUser)
                     ->revealable(filament()->arePasswordsRevealable())
                     ->rule(Password::default())
                     ->showAllValidationMessages()

@@ -24,14 +24,14 @@ return new class extends Migration
 
         Schema::create('survey_job_fair', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Survey::class)->constrained();
-            $table->foreignIdFor(JobFair::class)->constrained();
+            $table->foreignIdFor(Survey::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(JobFair::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
 
         Schema::create('survey_questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Survey::class)->constrained();
+            $table->foreignIdFor(Survey::class)->constrained()->cascadeOnDelete();
             $table->string('display_name');
             $table->string('type');
             $table->json('options')->nullable();
@@ -52,8 +52,8 @@ return new class extends Migration
         // survey_response_values
         Schema::create('survey_answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(SurveyQuestion::class)->constrained();
-            $table->foreignIdFor(SurveySubmission::class)->constrained();
+            $table->foreignIdFor(SurveyQuestion::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(SurveySubmission::class)->constrained()->cascadeOnDelete();
             $table->text('content')->nullable();
             $table->timestamps();
             $table->softDeletes();

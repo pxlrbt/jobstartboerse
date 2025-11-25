@@ -49,10 +49,6 @@ class DatabaseSeeder extends Seeder
 
         $jobFairs = [...$pastJobFairs, ...$futureJobFairs];
 
-        foreach ($jobFairs as $jobFair) {
-            $jobFair->refreshDisplayName();
-        }
-
         $exhibitors = Exhibitor::factory()
             ->has(Address::factory(), 'address')
             ->has(Address::factory(), 'billingAddress')

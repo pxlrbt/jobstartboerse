@@ -23,9 +23,9 @@ use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Components\Wizard\Step;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
+use Livewire\Features\SupportRedirects\Redirector;
 
 class CreateMailing extends CreateRecord
 {
@@ -48,7 +48,7 @@ class CreateMailing extends CreateRecord
             ->disabled(! $this->wasTestSent);
     }
 
-    public function sendMailing(): RedirectResponse
+    public function sendMailing(): Redirector
     {
         $data = $this->form->getState();
 

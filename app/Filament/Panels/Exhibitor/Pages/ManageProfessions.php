@@ -21,6 +21,8 @@ class ManageProfessions extends Page
 
     protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Data;
 
+    protected static ?int $navigationSort = 1;
+
     public function content(Schema $schema): Schema
     {
         $record = auth()->user()->exhibitor;

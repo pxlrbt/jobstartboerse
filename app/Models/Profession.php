@@ -17,6 +17,17 @@ class Profession extends Model
 
     use SoftDeletes;
 
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->slug = str()->slug($model->display_name);
+
+            return $model;
+        });
+    }
+
     /**
      * @return array{
      *     has_internship: 'boolean',

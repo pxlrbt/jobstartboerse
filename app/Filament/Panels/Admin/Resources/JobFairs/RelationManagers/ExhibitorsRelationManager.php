@@ -60,7 +60,7 @@ class ExhibitorsRelationManager extends RelationManager
                 TextColumn::make('stall_number')
                     ->label('Standnummer'),
 
-                IconColumn::make('needs_power')
+                IconColumn::make('pivot.needs_power')
                     ->label('Strom')
                     ->boolean(),
 
@@ -83,7 +83,7 @@ class ExhibitorsRelationManager extends RelationManager
                     ->schema(fn (AttachAction $action) => [
                         $action->getRecordSelect(),
 
-                        Toggle::make('pivot_needs_power')
+                        Toggle::make('needs_power')
                             ->label('Strom'),
 
                         Textarea::make('internal_note')

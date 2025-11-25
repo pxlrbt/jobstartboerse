@@ -41,6 +41,8 @@ class ManageJobLoungeParticipation extends Page
 
     protected static string|UnitEnum|null $navigationGroup = NavigationGroup::Data;
 
+    protected static ?int $navigationSort = 3;
+
     protected Width|string|null $maxContentWidth = Width::ScreenLarge;
 
     public Exhibitor $record;
@@ -69,10 +71,14 @@ class ManageJobLoungeParticipation extends Page
             Section::make()
                 ->heading('Ansprechpartner')
                 ->columns(2)
+                ->relationship('loungeContactPerson')
                 ->components([
-                    TextInput::make('name')
-                        ->columnSpan(2)
-                        ->label('Name')
+                    TextInput::make('first_name')
+                        ->label('Vorname')
+                        ->required(),
+
+                    TextInput::make('last_name')
+                        ->label('Nachanme')
                         ->required(),
 
                     TextInput::make('phone')
@@ -149,7 +155,7 @@ class ManageJobLoungeParticipation extends Page
                             'jobFair' => $jobFair,
                             'pageClass' => self::class,
                         ]
-                    ),
+                    )->key('lounge'.$jobFair->id),
                 ]))->toArray(),
             );
     }
