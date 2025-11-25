@@ -97,6 +97,14 @@ class JobFair extends Model
     }
 
     /**
+     * @return HasMany<LoungeParticipation, $this>
+     */
+    public function loungeParticipations(): HasMany
+    {
+        return $this->hasMany(LoungeParticipation::class);
+    }
+
+    /**
      * @return HasMany<SchoolRegistration, $this>
      */
     public function schoolRegistrations(): HasMany

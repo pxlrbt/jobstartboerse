@@ -5,6 +5,7 @@ use App\Models\Exhibitor;
 use App\Models\JobFair;
 use App\Models\JobFairDate;
 use App\Models\Location;
+use App\Models\LoungeParticipation;
 use App\Models\Profession;
 use App\Models\SchoolRegistration;
 
@@ -276,6 +277,40 @@ it('includes professions when requested', function () {
             ],
         ])
         ->assertJsonCount(1, 'data.professions');
+});
+
+it('includes lounge_participations when requested', function () {
+    // Arrange
+    config()->set('jobstartboerse.api.key', 'test-key');
+
+    $jobFair = JobFair::factory()
+        ->has(Location::factory(), 'locations')
+        ->has(JobFairDate::factory(), 'dates')
+        ->has(LoungeParticipation::factory(), 'loungeParticipations')
+        ->create([
+            'are_exhibitors_public' => true,
+        ]);
+
+    // Act
+    $response = $this->getJson("/api/job-fairs/{$jobFair->id}?api_key=test-key&include=lounge_participations");
+
+    // Assert
+    $response->assertSuccessful()
+        ->assertJsonStructure([
+            'data' => [
+                'lounge_participations' => [
+                    '*' => [
+                        'id',
+                        'model_type',
+                        'model_display_name',
+                        'exhibitor' => [
+                            'id', 'display_name',
+                        ],
+                    ],
+                ],
+            ],
+        ])
+        ->assertJsonCount(1, 'data.lounge_participations');
 });
 
 it('handles multiple includes via comma-separated query param', function () {

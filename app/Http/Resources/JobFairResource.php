@@ -40,6 +40,10 @@ class JobFairResource extends JsonResource
                 in_array('degrees', $includes) && $this->are_exhibitors_public,
                 fn () => DegreeResource::collection($this->degrees())
             ),
+            'lounge_participations' => $this->when(
+                in_array('lounge_participations', $includes) && $this->are_exhibitors_public,
+                fn () => LoungeParticipationResource::collection($this->whenLoaded('loungeParticipations')),
+            ),
             'school_registrations' => $this->when(
                 in_array('school_registrations', $includes),
                 fn () => SchoolRegistrationResource::collection($this->whenLoaded('schoolRegistrations'))

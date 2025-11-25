@@ -35,6 +35,10 @@ class JobFairController extends Controller
             $jobFair->load('schoolRegistrations');
         }
 
+        if (in_array('lounge_participations', $includes)) {
+            $jobFair->load('loungeParticipations');
+        }
+
         return new JobFairResource($jobFair);
     }
 
