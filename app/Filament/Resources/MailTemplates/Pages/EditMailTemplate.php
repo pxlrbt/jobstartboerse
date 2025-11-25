@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\MailTemplateResource\Pages;
+namespace App\Filament\Resources\MailTemplates\Pages;
 
 use App\Filament\Resources\MailTemplates\MailTemplateResource;
 use Filament\Actions\DeleteAction;

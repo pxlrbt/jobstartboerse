@@ -5,7 +5,6 @@ namespace App\Filament\Resources\MailTemplates;
 use App\Filament\Components\MailEditor;
 use App\Filament\Enums\NavigationGroup;
 use App\Filament\Resources\Mailings\MailingResource;
-use App\Filament\Resources\MailTemplateResource\Pages;
 use App\Models\MailTemplate;
 use BackedEnum;
 use Filafly\Icons\Phosphor\Enums\Phosphor;

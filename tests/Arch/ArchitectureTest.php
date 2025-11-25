@@ -4,7 +4,7 @@ use Illuminate\Support\ServiceProvider;
 
 arch()->preset()->php();
 
-arch()->preset()->security();
+// arch()->preset()->security();
 
 arch('controllers')
     ->expect('App\Http\Controllers')

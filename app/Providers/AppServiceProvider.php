@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Degree;
-use App\Models\Profession;
-use App\Models\User;
+use App\Models;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -34,9 +32,23 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict();
 
         Relation::morphMap([
-            'user' => User::class,
-            'degree' => Degree::class,
-            'profession' => Profession::class,
+            'address' => Models\Address::class,
+            'contact_person' => Models\ContactPerson::class,
+            'degree' => Models\Degree::class,
+            'exhibitor' => Models\Exhibitor::class,
+            'exhibitor_registration' => Models\Pivot\ExhibitorRegistration::class,
+            'job_fair' => Models\JobFair::class,
+            'job_fair_date' => Models\JobFairDate::class,
+            'location' => Models\Location::class,
+            'mailing' => Models\Mailing::class,
+            'mail_template' => Models\MailTemplate::class,
+            'profession' => Models\Profession::class,
+            'school_registration' => Models\SchoolRegistration::class,
+            'survey' => Models\Survey::class,
+            'survey_answer' => Models\SurveyAnswer::class,
+            'survey_question' => Models\SurveyQuestion::class,
+            'survey_submission' => Models\SurveySubmission::class,
+            'user' => Models\User::class,
         ]);
 
         Password::defaults(function () {
