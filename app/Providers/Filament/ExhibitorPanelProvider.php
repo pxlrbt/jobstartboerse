@@ -2,10 +2,10 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Exhibitor\RelationManagers\DegreeRelationManager;
-use App\Filament\Exhibitor\RelationManagers\JobStartRelationManager;
-use App\Filament\Exhibitor\RelationManagers\ProfessionRelationManager;
 use App\Filament\Pages\Login;
+use App\Filament\Panels\Exhibitor\RelationManagers\DegreeRelationManager;
+use App\Filament\Panels\Exhibitor\RelationManagers\JobStartRelationManager;
+use App\Filament\Panels\Exhibitor\RelationManagers\ProfessionRelationManager;
 use Filafly\Icons\Phosphor\PhosphorIcons;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -53,12 +53,12 @@ class ExhibitorPanelProvider extends PanelProvider
             ])
             ->sidebarCollapsibleOnDesktop()
 
-            ->discoverResources(in: app_path('Filament/Exhibitor/Resources'), for: 'App\Filament\Exhibitor\Resources')
-            ->discoverPages(in: app_path('Filament/Exhibitor/Pages'), for: 'App\Filament\Exhibitor\Pages')
+            ->discoverResources(in: app_path('Filament/Panels/Exhibitor/Resources'), for: 'App\Filament\Panels\Exhibitor\Resources')
+            ->discoverPages(in: app_path('Filament/Panels/Exhibitor/Pages'), for: 'App\Filament\Panels\Exhibitor\Pages')
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Exhibitor/Widgets'), for: 'App\Filament\Exhibitor\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Panels/Exhibitor/Widgets'), for: 'App\Filament\Panels\Exhibitor\Widgets')
             ->widgets([
                 AccountWidget::class,
             ])

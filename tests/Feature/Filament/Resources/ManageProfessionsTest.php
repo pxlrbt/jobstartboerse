@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Resources\Professions\Pages\ManageProfessions;
+use App\Filament\Panels\Admin\Resources\Professions\Pages\ManageProfessions;
 use App\Models\Profession;
 use Livewire\Livewire;
 

@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Resources\Degrees\Pages\ManageDegrees;
+use App\Filament\Panels\Admin\Resources\Degrees\Pages\ManageDegrees;
 use App\Models\Degree;
 use Livewire\Livewire;
 

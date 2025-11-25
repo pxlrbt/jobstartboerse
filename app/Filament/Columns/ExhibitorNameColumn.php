@@ -2,7 +2,7 @@
 
 namespace App\Filament\Columns;
 
-use App\Filament\Resources\Exhibitors\ExhibitorResource;
+use App\Filament\Panels\Admin\Resources\Exhibitors\ExhibitorResource;
 use App\Models\Exhibitor;
 use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
