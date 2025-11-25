@@ -72,9 +72,6 @@ class ExhibitorForm
 
     public static function configure(Schema $schema): Schema
     {
-        $addressSchema = self::getAddressSchema();
-        $contactPersonSchema = self::getContactPersonSchema();
-
         return $schema
             ->columns(1)
             ->components([
@@ -103,26 +100,24 @@ class ExhibitorForm
                         Section::make('Adresse')
                             ->columns(12)
                             ->relationship('address')
-                            ->schema($addressSchema),
+                            ->schema(self::getAddressSchema()),
 
                         Section::make('Ansprechpartner')
                             ->columns(12)
                             ->relationship('contactPerson')
-                            ->schema($contactPersonSchema),
+                            ->schema(self::getContactPersonSchema()),
                     ]),
 
                     Tabs\Tab::make('Rechnung')->schema([
                         Section::make('Rechnungsadresse')
-                            ->compact(true)
                             ->columns(12)
                             ->relationship('billingAddress')
-                            ->schema($addressSchema),
+                            ->schema(self::getAddressSchema()),
 
                         Section::make('Ansprechpartner')
-                            ->compact(true)
                             ->columns(12)
                             ->relationship('billingContactPerson')
-                            ->schema($contactPersonSchema),
+                            ->schema(self::getContactPersonSchema()),
                     ]),
 
                     Tabs\Tab::make('Logo')->schema([
