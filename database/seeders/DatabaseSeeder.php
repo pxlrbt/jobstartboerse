@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\Role;
+use App\Enums\SurveyQuestionType;
 use App\Models\Address;
 use App\Models\ContactPerson;
 use App\Models\Degree;
@@ -146,14 +147,14 @@ class DatabaseSeeder extends Seeder
         $textQuestion = SurveyQuestion::query()->create([
             'survey_id' => $realisticSurvey->id,
             'display_name' => 'Was hat Ihnen an der JobStart-Börse besonders gut gefallen?',
-            'type' => \App\Enums\SurveyQuestionType::Text,
+            'type' => SurveyQuestionType::Text,
             'options' => null,
         ]);
 
         $singleChoiceQuestion = SurveyQuestion::query()->create([
             'survey_id' => $realisticSurvey->id,
             'display_name' => 'Wie haben Sie von der JobStart-Börse erfahren?',
-            'type' => \App\Enums\SurveyQuestionType::SingleChoice,
+            'type' => SurveyQuestionType::SingleChoice,
             'options' => collect([
                 'Social Media',
                 'Website',
@@ -166,7 +167,7 @@ class DatabaseSeeder extends Seeder
         $multipleChoiceQuestion = SurveyQuestion::query()->create([
             'survey_id' => $realisticSurvey->id,
             'display_name' => 'Welche Bereiche waren für Sie von besonderem Interesse?',
-            'type' => \App\Enums\SurveyQuestionType::MultipleChoice,
+            'type' => SurveyQuestionType::MultipleChoice,
             'options' => collect([
                 'IT & Technik',
                 'Handwerk',
@@ -179,14 +180,14 @@ class DatabaseSeeder extends Seeder
         $toggleQuestion = SurveyQuestion::query()->create([
             'survey_id' => $realisticSurvey->id,
             'display_name' => 'Würden Sie die JobStart-Börse weiterempfehlen?',
-            'type' => \App\Enums\SurveyQuestionType::Toggle,
+            'type' => SurveyQuestionType::Toggle,
             'options' => null,
         ]);
 
         $ratingQuestion = SurveyQuestion::query()->create([
             'survey_id' => $realisticSurvey->id,
             'display_name' => 'Wie zufrieden waren Sie insgesamt mit der Veranstaltung?',
-            'type' => \App\Enums\SurveyQuestionType::Rating,
+            'type' => SurveyQuestionType::Rating,
             'options' => null,
         ]);
 

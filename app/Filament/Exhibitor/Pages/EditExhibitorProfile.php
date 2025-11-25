@@ -8,6 +8,7 @@ use App\Models\Exhibitor;
 use BackedEnum;
 use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
@@ -30,6 +31,9 @@ class EditExhibitorProfile extends Page
 
     public Exhibitor $record;
 
+    /**
+     * @var array<string, mixed>
+     */
     public array $data = [];
 
     public ?string $previousUrl = null;

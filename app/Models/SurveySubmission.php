@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\SurveySubmissionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,7 +23,7 @@ class SurveySubmission extends Model
      */
     public function survey(): BelongsTo
     {
-        return $this->belongsTo(Exhibitor::class);
+        return $this->belongsTo(Survey::class);
     }
 
     /**

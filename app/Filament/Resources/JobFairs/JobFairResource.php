@@ -12,6 +12,8 @@ use App\Filament\Resources\JobFairs\Tables\JobFairsTable;
 use App\Models\JobFair;
 use BackedEnum;
 use Filafly\Icons\Phosphor\Enums\Phosphor;
+use Filament\Resources\Pages\PageRegistration;
+use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -40,6 +42,9 @@ class JobFairResource extends Resource
         return JobFairsTable::configure($table);
     }
 
+    /**
+     * @return array<RelationManagerConfiguration>
+     */
     public static function getRelations(): array
     {
         return [
@@ -48,6 +53,9 @@ class JobFairResource extends Resource
         ];
     }
 
+    /**
+     * @return array<string, PageRegistration>
+     */
     public static function getPages(): array
     {
         return [

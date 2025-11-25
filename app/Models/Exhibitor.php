@@ -90,7 +90,7 @@ class Exhibitor extends Model
     }
 
     /**
-     * @return BelongsToMany<JobFair, $this>
+     * @return BelongsToMany<JobFair, $this, ExhibitorRegistration>
      */
     public function jobFairs(): BelongsToMany
     {

@@ -10,7 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
+/**
+ * @property Collection<int, SchoolRegistrationClass> $classes
+ */
 class SchoolRegistration extends Model
 {
     /**
@@ -46,7 +50,7 @@ class SchoolRegistration extends Model
     protected function studentsCount(): Attribute
     {
         return Attribute::get(
-            fn ($value, array $attributes) => $this->classes?->sum('students_count') ?? 0,
+            fn ($value, array $attributes) => $this->classes->sum('students_count') ?? 0,
         );
     }
 }

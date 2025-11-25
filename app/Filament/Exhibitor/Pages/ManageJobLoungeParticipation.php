@@ -45,6 +45,9 @@ class ManageJobLoungeParticipation extends Page
 
     public Exhibitor $record;
 
+    /**
+     * @var array<string, mixed>
+     */
     public array $data = [];
 
     public ?string $previousUrl = null;

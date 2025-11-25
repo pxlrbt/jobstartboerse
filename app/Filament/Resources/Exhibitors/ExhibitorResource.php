@@ -14,6 +14,7 @@ use App\Filament\Resources\Exhibitors\Tables\ExhibitorsTable;
 use App\Models\Exhibitor;
 use BackedEnum;
 use Filafly\Icons\Phosphor\Enums\Phosphor;
+use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -40,6 +41,9 @@ class ExhibitorResource extends Resource
         return ExhibitorsTable::configure($table);
     }
 
+    /**
+     * @return array<RelationManagerConfiguration>
+     */
     public static function getRelations(): array
     {
         return [
@@ -50,6 +54,9 @@ class ExhibitorResource extends Resource
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public static function getPages(): array
     {
         return [

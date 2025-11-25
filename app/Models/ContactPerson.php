@@ -24,7 +24,7 @@ class ContactPerson extends Model
     }
 
     /**
-     * @return Attribute<string, never>
+     * @return Attribute<non-falsy-string, never>
      */
     protected function fullName(): Attribute
     {

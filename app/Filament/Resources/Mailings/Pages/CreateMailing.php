@@ -23,6 +23,7 @@ use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Components\Wizard\Step;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
 
@@ -34,6 +35,9 @@ class CreateMailing extends CreateRecord
 
     public bool $wasTestSent = false;
 
+    /**
+     * @var array<string, string>
+     */
     protected $listeners = ['refresh' => '$refresh'];
 
     protected function getCreateFormAction(): Action
@@ -44,7 +48,7 @@ class CreateMailing extends CreateRecord
             ->disabled(! $this->wasTestSent);
     }
 
-    public function sendMailing()
+    public function sendMailing(): RedirectResponse
     {
         $data = $this->form->getState();
 
@@ -85,6 +89,9 @@ class CreateMailing extends CreateRecord
         return redirect()->to(MailingResource::getUrl());
     }
 
+    /**
+     * @return array<Step>
+     */
     protected function getSteps(): array
     {
         return [

@@ -94,6 +94,9 @@ class MailTemplateResource extends Resource
         ];
     }
 
+    /**
+     * @return Builder<MailTemplate>
+     */
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

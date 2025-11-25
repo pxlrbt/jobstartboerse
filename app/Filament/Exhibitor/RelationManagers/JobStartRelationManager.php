@@ -14,6 +14,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 
 class JobStartRelationManager extends RelationManager
 {
@@ -41,9 +42,19 @@ class JobStartRelationManager extends RelationManager
 
     public function getTableRecordKey(Model|array $record): string
     {
-        return match ($record->classname) {
-            'degrees' => Degree::class.':'.$record->id,
-            'profession' => Profession::class.':'.$record->id,
+        if (is_array($record)) {
+            return '';
+        }
+
+        // @phpstan-ignore property.notFound (dynamic properties from raw SQL query)
+        $classname = $record->classname;
+        // @phpstan-ignore property.notFound (dynamic properties from raw SQL query)
+        $id = $record->id;
+
+        return match ($classname) {
+            'degrees' => Degree::class.':'.$id,
+            'profession' => Profession::class.':'.$id,
+            default => throw new InvalidArgumentException("Unknown classname: {$classname}"),
         };
     }
 
@@ -95,6 +106,7 @@ class JobStartRelationManager extends RelationManager
                     ->formatStateUsing(fn ($state) => match ($state) {
                         'degrees' => 'Studiengang',
                         'profession' => 'Beruf',
+                        default => 'Unbekannt',
                     })
                     ->badge()
                     ->searchable(),

@@ -10,9 +10,6 @@ use Illuminate\Support\HtmlString;
  */
 final class JobFairManager implements Arrayable
 {
-    /**
-     * @param  array<string>|string  $file
-     */
     public function __construct(
         public string $name,
         public string $email,
@@ -52,6 +49,9 @@ final class JobFairManager implements Arrayable
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function toArray(): array
     {
         return (array) $this;

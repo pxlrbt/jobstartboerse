@@ -42,9 +42,9 @@ class User extends Authenticatable implements FilamentUser
 
     /**
      * @return array{
-     *     role: 'datetime',
+     *     email_verified_at: 'datetime',
      *     password: 'hashed',
-     *     role: '\App\Enums\Role',
+     *     role: 'App\Enums\Role',
      * }
      */
     protected function casts(): array

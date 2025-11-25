@@ -8,6 +8,7 @@ use App\Filament\Exhibitor\Resources\Surveys\Tables\SurveysTable;
 use App\Models\Survey;
 use BackedEnum;
 use Filafly\Icons\Phosphor\Enums\Phosphor;
+use Filament\Resources\RelationManagers\RelationManagerConfiguration;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,6 +30,9 @@ class SurveyResource extends Resource
         return SurveysTable::configure($table);
     }
 
+    /**
+     * @return array<RelationManagerConfiguration>
+     */
     public static function getRelations(): array
     {
         return [
@@ -36,6 +40,9 @@ class SurveyResource extends Resource
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public static function getPages(): array
     {
         return [
@@ -44,6 +51,9 @@ class SurveyResource extends Resource
         ];
     }
 
+    /**
+     * @return Builder<Survey>
+     */
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

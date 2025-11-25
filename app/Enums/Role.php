@@ -18,6 +18,9 @@ enum Role: int implements HasLabel
         };
     }
 
+    /**
+     * @return array<int, string>
+     */
     public static function toOptions(): array
     {
         return collect(self::cases())

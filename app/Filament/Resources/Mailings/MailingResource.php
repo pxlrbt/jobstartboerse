@@ -78,6 +78,9 @@ class MailingResource extends Resource
         ];
     }
 
+    /**
+     * @return Builder<Mailing>
+     */
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

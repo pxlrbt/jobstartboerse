@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\MailingFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Mailing extends Model
 {
-    /** @use HasFactory<Mailing> */
+    /** @use HasFactory<MailingFactory> */
     use HasFactory;
 
     use SoftDeletes;

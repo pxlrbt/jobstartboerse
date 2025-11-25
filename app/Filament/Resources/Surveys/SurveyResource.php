@@ -22,6 +22,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
@@ -97,7 +98,12 @@ class SurveyResource extends Resource
 
                                 Select::make('type')
                                     ->label('Typ')
-                                    ->disabled(fn (EditSurvey $livewire) => $livewire->getRecord()->submissions()->exists())
+                                    ->disabled(function (EditSurvey $livewire) {
+                                        /** @var Survey $record */
+                                        $record = $livewire->getRecord();
+
+                                        return $record->submissions()->exists();
+                                    })
                                     ->enum(SurveyQuestionType::class)
                                     ->options(SurveyQuestionType::class)
 
@@ -164,16 +170,22 @@ class SurveyResource extends Resource
             ]);
     }
 
+    /**
+     * @return array<string, PageRegistration>
+     */
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListSurveys::route('/'),
             'create' => Pages\CreateSurvey::route('/create'),
-            'edit' => Pages\EditSurvey::route('/{record}/edit'),
+            'edit' => EditSurvey::route('/{record}/edit'),
             'results' => Pages\ViewSurveyResults::route('/{record}'),
         ];
     }
 
+    /**
+     * @return Builder<Survey>
+     */
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

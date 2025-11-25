@@ -4,6 +4,7 @@ namespace App\Filament\Exhibitor\Resources\Surveys\Pages;
 
 use App\Enums\SurveyQuestionType;
 use App\Filament\Exhibitor\Resources\Surveys\SurveyResource;
+use App\Models\Survey;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyQuestion;
 use App\Models\SurveySubmission;
@@ -47,10 +48,13 @@ class ParticipateSurvey extends EditRecord
 
     public function form(Schema $schema): Schema
     {
+        /** @var Survey $record */
+        $record = $this->record;
+
         return $schema
             ->columns(1)
             ->components(
-                collect($this->record->questions->map($this->getComponentForQuestion(...)))->toArray(),
+                collect($record->questions->map($this->getComponentForQuestion(...)))->toArray(),
             );
     }
 
@@ -101,8 +105,11 @@ class ParticipateSurvey extends EditRecord
     {
         $answers = $this->form->getState();
 
+        /** @var Survey $record */
+        $record = $this->record;
+
         $submission = SurveySubmission::create([
-            'survey_id' => $this->record->id,
+            'survey_id' => $record->id,
             'exhibitor_id' => auth()->user()->exhibitor_id,
         ]);
 

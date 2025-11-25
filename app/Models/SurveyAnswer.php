@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property SurveyQuestion $question
+ * @property array<string, mixed>|string|null $content
+ */
 class SurveyAnswer extends Model
 {
     /**
@@ -27,10 +31,16 @@ class SurveyAnswer extends Model
         ];
     }
 
+    /**
+     * @return Attribute<mixed, mixed>
+     */
     protected function textContent(): Attribute
     {
         return Attribute::get(function ($value, array $attributes) {
-            return match ($this->question->type) {
+            /** @var SurveyQuestionType $questionType */
+            $questionType = $this->question->type;
+
+            return match ($questionType) {
                 SurveyQuestionType::Toggle => $this->content ? 'Ja' : 'Nein',
                 default => $this->content
             };

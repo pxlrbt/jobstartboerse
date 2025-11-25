@@ -17,7 +17,7 @@ class MailPreview extends Entry implements HasEmbeddedView
 
         $state = (new RenderMailContent)($state, auth()->user()->exhibitor ?? Exhibitor::first());
 
-        if ($state === null) {
+        if ($state === '') {
             return '';
         }
 

@@ -25,7 +25,10 @@ class ViewSurveyResults extends ViewRecord
 
     public function getTitle(): string|Htmlable
     {
-        return $this->record->display_name;
+        /** @var Survey $survey */
+        $survey = $this->record;
+
+        return $survey->display_name;
     }
 
     public function content(Schema $schema): Schema
@@ -59,7 +62,7 @@ class ViewSurveyResults extends ViewRecord
         ]);
     }
 
-    protected function getWidgetForQuestion(SurveyQuestion $question)
+    protected function getWidgetForQuestion(SurveyQuestion $question): Section|Livewire
     {
         if ($question->type === SurveyQuestionType::Text) {
             return Section::make($question->display_name)
