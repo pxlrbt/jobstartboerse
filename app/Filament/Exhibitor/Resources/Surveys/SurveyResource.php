@@ -4,14 +4,11 @@ namespace App\Filament\Exhibitor\Resources\Surveys;
 
 use App\Filament\Exhibitor\Resources\Surveys\Pages\ListSurveys;
 use App\Filament\Exhibitor\Resources\Surveys\Pages\ParticipateSurvey;
-use App\Filament\Exhibitor\Resources\Surveys\Schemas\SurveyForm;
-use App\Filament\Exhibitor\Resources\Surveys\Schemas\SurveyInfolist;
 use App\Filament\Exhibitor\Resources\Surveys\Tables\SurveysTable;
 use App\Models\Survey;
 use BackedEnum;
 use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -26,16 +23,6 @@ class SurveyResource extends Resource
     protected static ?string $modelLabel = 'Umfrage';
 
     protected static ?string $pluralModelLabel = 'Umfragen';
-
-    public static function form(Schema $schema): Schema
-    {
-        return SurveyForm::configure($schema);
-    }
-
-    public static function infolist(Schema $schema): Schema
-    {
-        return SurveyInfolist::configure($schema);
-    }
 
     public static function table(Table $table): Table
     {

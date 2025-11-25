@@ -66,7 +66,7 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugin(EnvironmentIndicatorPlugin::make())
-            ->plugin(PhosphorIcons::make()->duotone())
+            ->plugin(PhosphorIcons::make()->style('duotone'))
             ->renderHook(
                 PanelsRenderHook::BODY_END,
                 fn () => <<<'HTML'

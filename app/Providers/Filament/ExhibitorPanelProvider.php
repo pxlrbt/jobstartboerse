@@ -79,6 +79,6 @@ class ExhibitorPanelProvider extends PanelProvider
             ])
 
             ->plugin(EnvironmentIndicatorPlugin::make())
-            ->plugin(PhosphorIcons::make()->duotone());
+            ->plugin(PhosphorIcons::make()->style('duotone'));
     }
 }

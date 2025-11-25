@@ -42,9 +42,9 @@ class User extends Authenticatable implements FilamentUser
 
     /**
      * @return array{
-     *     email_verified_at: string,
-     *     password: string,
-     *     role: Role
+     *     role: 'datetime',
+     *     password: 'hashed',
+     *     role: '\App\Enums\Role',
      * }
      */
     protected function casts(): array
@@ -70,11 +70,6 @@ class User extends Authenticatable implements FilamentUser
             return $this->role === Role::Admin;
         }
 
-        return true;
-    }
-
-    public function canBeImpersonated(): bool
-    {
         return true;
     }
 }
