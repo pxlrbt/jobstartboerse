@@ -68,6 +68,9 @@ class ExhibitorResource extends Resource
         ];
     }
 
+    /**
+     * @return Builder<Exhibitor>
+     */
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

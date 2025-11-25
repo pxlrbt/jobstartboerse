@@ -77,8 +77,8 @@ class ExportSurveyAction
     }
 
     /**
-     * @param  Cell  $array
-     * @return Cell
+     * @param  array<int, array<int, Cell>>  $array
+     * @return array<int, array<int, Cell>>
      */
     protected static function transpose(array $array): array
     {

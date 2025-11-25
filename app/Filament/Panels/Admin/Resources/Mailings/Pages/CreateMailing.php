@@ -86,7 +86,7 @@ class CreateMailing extends CreateRecord
             ->body('Ihr Mailing wird jetzt an die Aussteller versendet.')
             ->send();
 
-        return redirect()->to(MailingResource::getUrl());
+        return $this->redirect(MailingResource::getUrl());
     }
 
     /**
