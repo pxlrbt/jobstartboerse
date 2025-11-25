@@ -28,7 +28,7 @@ it('creates school registration with valid data', function () {
     $jobFair = JobFair::factory()
         ->has(Location::factory(), 'locations')
         ->has(JobFairDate::factory(), 'dates')
-        ->create();
+        ->create(['is_public' => true]);
 
     $data = [
         'school_name' => 'Gymnasium Musterstadt',
@@ -196,4 +196,33 @@ it('returns 404 when job fair does not exist', function () {
 
     // Assert
     $response->assertNotFound();
+});
+
+it('returns 404 when job fair is not public', function () {
+    // Arrange
+    config()->set('jobstartboerse.api.key', 'test-key');
+
+    $jobFair = JobFair::factory()
+        ->has(Location::factory(), 'locations')
+        ->has(JobFairDate::factory(), 'dates')
+        ->create(['is_public' => false]);
+
+    $data = [
+        'school_name' => 'Test School',
+        'school_zipcode' => '12345',
+        'school_city' => 'Musterstadt',
+        'teacher' => 'Max Mustermann',
+        'teacher_email' => 'max@example.com',
+        'classes' => [
+            ['name' => '10a', 'time' => '09:00', 'students_count' => 25],
+        ],
+    ];
+
+    // Act
+    $response = $this->postJson("/api/job-fairs/{$jobFair->id}/school-registration?api_key=test-key", $data);
+
+    // Assert
+    $response->assertNotFound();
+
+    expect(SchoolRegistration::query()->count())->toBe(0);
 });

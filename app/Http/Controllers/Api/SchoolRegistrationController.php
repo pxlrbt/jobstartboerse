@@ -13,6 +13,8 @@ class SchoolRegistrationController extends Controller
 {
     public function store(StoreSchoolRegistrationRequest $request, JobFair $jobFair): JsonResponse
     {
+        abort_if(! $jobFair->is_public, 404);
+
         /** @var array<int, array<string, mixed>> $classesData */
         $classesData = $request->validated('classes');
 
