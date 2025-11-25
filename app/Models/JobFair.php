@@ -25,9 +25,14 @@ class JobFair extends Model
         parent::boot();
 
         static::saving(function (JobFair $model) {
-            $model->display_name = $model->locations->first()->display_name
-                .' • '
-                .$model->dates->first()->date->format('Y');
+            $firstLocation = $model->locations()->first();
+            $firstDate = $model->dates()->first();
+
+            if ($firstLocation && $firstDate) {
+                $model->display_name = $firstLocation->display_name
+                    .' • '
+                    .$firstDate->date->format('Y');
+            }
         });
     }
 
