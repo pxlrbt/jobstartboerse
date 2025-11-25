@@ -20,7 +20,7 @@ Authorization: Bearer your_api_key_here
 
 **Example:**
 ```bash
-curl -H "Authorization: Bearer your_api_key_here" https://example.com/api/job-fairs
+curl -H "Authorization: Bearer your_api_key_here" https://dev.jobstartboerse.de/api/job-fairs
 ```
 
 ## Endpoints
@@ -66,7 +66,7 @@ Returns a single job fair with optional includes.
 **Example:**
 ```bash
 curl -H "Authorization: Bearer your_api_key_here" \
-  "https://example.com/api/job-fairs/1?include=exhibitors,professions"
+  "https://dev.jobstartboerse.de/api/job-fairs/1?include=exhibitors,professions"
 ```
 
 ### School Registration
@@ -105,7 +105,7 @@ curl -X POST \
       }
     ]
   }' \
-  https://example.com/api/job-fairs/1/school-registration
+  https://dev.jobstartboerse.de/api/job-fairs/1/school-registration
 ```
 
 **Request Body:**
