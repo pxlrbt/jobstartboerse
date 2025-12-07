@@ -32,7 +32,7 @@ class JobStartRelationManager extends RelationManager
 
     public function mount(): void
     {
-        $this->exhibitor = auth()->user()->exhibitor;
+        $this->exhibitor = filament()->getTenant();
     }
 
     protected function getTableHeading(): string|Htmlable|null

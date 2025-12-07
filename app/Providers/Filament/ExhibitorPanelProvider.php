@@ -6,6 +6,7 @@ use App\Filament\Pages\Login;
 use App\Filament\Panels\Exhibitor\RelationManagers\DegreeRelationManager;
 use App\Filament\Panels\Exhibitor\RelationManagers\JobStartRelationManager;
 use App\Filament\Panels\Exhibitor\RelationManagers\ProfessionRelationManager;
+use App\Models\Exhibitor;
 use Filafly\Icons\Phosphor\PhosphorIcons;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -41,6 +42,7 @@ class ExhibitorPanelProvider extends PanelProvider
         return $panel
             ->id('exhibitor')
             ->path('aussteller')
+            ->tenant(Exhibitor::class)
             ->login(Login::class)
             ->brandLogo('/logo.svg')
             ->brandName('Jobstartbörse')

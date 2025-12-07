@@ -56,7 +56,7 @@ class ManageJobLoungeParticipation extends Page
 
     public function mount(): void
     {
-        $this->record = auth()->user()->exhibitor;
+        $this->record = filament()->getTenant();
 
         $this->form->fill($this->record->toArray());
         $this->form->record($this->record);
@@ -78,7 +78,7 @@ class ManageJobLoungeParticipation extends Page
                         ->required(),
 
                     TextInput::make('last_name')
-                        ->label('Nachanme')
+                        ->label('Nachname')
                         ->required(),
 
                     TextInput::make('phone')
@@ -143,7 +143,7 @@ class ManageJobLoungeParticipation extends Page
         }
 
         $manager = JobStartRelationManager::make();
-        $record = auth()->user()->exhibitor;
+        $record = filament()->getTenant();
 
         return
             Tabs::make()->contained(false)->tabs(

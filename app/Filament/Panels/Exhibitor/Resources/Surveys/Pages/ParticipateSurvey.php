@@ -25,7 +25,7 @@ class ParticipateSurvey extends EditRecord
     public function mount(string|int $record): void
     {
         $submissionExists = SurveySubmission::query()
-            ->where('exhibitor_id', auth()->user()->exhibitor->id)
+            ->where('exhibitor_id', filament()->getTenant()->id)
             ->where('survey_id', $record)
             ->exists();
 
@@ -110,7 +110,7 @@ class ParticipateSurvey extends EditRecord
 
         $submission = SurveySubmission::create([
             'survey_id' => $record->id,
-            'exhibitor_id' => auth()->user()->exhibitor_id,
+            'exhibitor_id' => filament()->getTenant()->id,
         ]);
 
         foreach ($answers as $questionId => $answer) {

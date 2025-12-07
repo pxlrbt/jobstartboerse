@@ -25,7 +25,7 @@ class ManageProfessions extends Page
 
     public function content(Schema $schema): Schema
     {
-        $record = auth()->user()->exhibitor;
+        $record = filament()->getTenant();
         $manager = ProfessionRelationManager::make();
 
         $managerRegional = JobFairManager::regional();

@@ -5,14 +5,14 @@ namespace App\Models;
 use App\Enums\Branch;
 use App\Models\Pivot\ExhibitorRegistration;
 use Database\Factories\ExhibitorFactory;
+use Filament\Models\Contracts\HasName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Exhibitor extends Model
+class Exhibitor extends Model implements HasName
 {
     /**
      * @use HasFactory<ExhibitorFactory>
@@ -20,6 +20,11 @@ class Exhibitor extends Model
     use HasFactory;
 
     use SoftDeletes;
+
+    public function getFilamentName(): string
+    {
+        return $this->display_name;
+    }
 
     protected static function boot(): void
     {
@@ -45,11 +50,11 @@ class Exhibitor extends Model
     }
 
     /**
-     * @return HasMany<User, $this>
+     * @return BelongsToMany<User, $this>
      */
-    public function users(): HasMany
+    public function users(): BelongsToMany
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     /**

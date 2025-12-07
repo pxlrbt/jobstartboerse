@@ -6,13 +6,16 @@ namespace App\Models;
 use App\Enums\Role;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasTenants
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
@@ -57,11 +60,11 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * @return BelongsTo<Exhibitor, $this>
+     * @return BelongsToMany<Exhibitor, $this>
      */
-    public function exhibitor(): BelongsTo
+    public function exhibitors(): BelongsToMany
     {
-        return $this->belongsTo(Exhibitor::class);
+        return $this->belongsToMany(Exhibitor::class);
     }
 
     public function canAccessPanel(Panel $panel): bool
@@ -71,5 +74,15 @@ class User extends Authenticatable implements FilamentUser
         }
 
         return true;
+    }
+
+    public function getTenants(Panel $panel): Collection
+    {
+        return $this->exhibitors;
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->exhibitors()->whereKey($tenant)->exists();
     }
 }

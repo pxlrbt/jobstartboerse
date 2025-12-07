@@ -18,7 +18,7 @@ class UsersTable
     {
         return $table
             ->columns([
-                TextColumn::make('exhibitor.display_name')
+                TextColumn::make('exhibitors.display_name')
                     ->label('Aussteller')
                     ->searchable(),
 

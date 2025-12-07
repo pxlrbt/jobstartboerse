@@ -50,7 +50,7 @@ class EditExhibitorProfile extends Page
 
     public function mount(): void
     {
-        $this->record = auth()->user()->exhibitor;
+        $this->record = filament()->getTenant();
 
         $this->form->fill($this->record->toArray());
         $this->form->record($this->record);

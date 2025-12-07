@@ -25,7 +25,7 @@ class ManageDegrees extends Page
 
     public function content(Schema $schema): Schema
     {
-        $record = auth()->user()->exhibitor;
+        $record = filament()->getTenant();
         $manager = DegreeRelationManager::make();
 
         $managerRegional = JobFairManager::regional();

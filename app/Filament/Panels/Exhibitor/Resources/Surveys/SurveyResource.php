@@ -17,6 +17,8 @@ class SurveyResource extends Resource
 {
     protected static ?string $model = Survey::class;
 
+    protected static bool $isScopedToTenant = false;
+
     protected static string|BackedEnum|null $navigationIcon = Phosphor::QuestionDuotone;
 
     protected static ?string $recordTitleAttribute = 'display_name';
@@ -59,11 +61,11 @@ class SurveyResource extends Resource
         return parent::getEloquentQuery()
             ->whereDoesntHave(
                 'submissions',
-                fn (Builder $query) => $query->where('exhibitor_id', auth()->user()->exhibitor_id)
+                fn (Builder $query) => $query->where('exhibitor_id', filament()->getTenant()->id)
             )
             ->whereHas(
                 'jobFairs',
-                fn (Builder $query) => $query->whereIn('job_fair_id', auth()->user()->exhibitor->jobFairs()->pluck('job_fairs.id'))
+                fn (Builder $query) => $query->whereIn('job_fair_id', filament()->getTenant()->jobFairs()->pluck('job_fairs.id'))
             );
     }
 }

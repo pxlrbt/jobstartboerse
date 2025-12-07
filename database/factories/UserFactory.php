@@ -28,12 +28,20 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'role' => $this->faker->randomElement(Role::cases()),
-            'exhibitor_id' => Exhibitor::factory(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function ($user) {
+            if ($user->role !== Role::Admin) {
+                $user->exhibitors()->attach(Exhibitor::factory()->create());
+            }
+        });
     }
 
     /**
