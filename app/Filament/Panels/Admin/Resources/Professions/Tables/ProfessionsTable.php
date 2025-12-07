@@ -36,7 +36,7 @@ class ProfessionsTable
                     ->boolean(),
 
                 IconColumn::make('has_degree')
-                    ->label('Ausbildung')
+                    ->label('Studium')
                     ->boolean(),
             ])
             ->filters([
