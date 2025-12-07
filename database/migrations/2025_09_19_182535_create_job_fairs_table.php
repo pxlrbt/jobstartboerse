@@ -33,10 +33,10 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name')->nullable();
-            $table->string('street');
-            $table->string('zipcode');
-            $table->string('city');
+            $table->string('name');
+            $table->string('street')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('city')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

@@ -29,7 +29,7 @@ class JobFair extends Model
             $firstDate = $model->dates()->first();
 
             if ($firstLocation && $firstDate) {
-                $model->display_name = $firstLocation->display_name
+                $model->display_name = $firstLocation->name
                     .' • '
                     .$firstDate->date->format('Y');
             }

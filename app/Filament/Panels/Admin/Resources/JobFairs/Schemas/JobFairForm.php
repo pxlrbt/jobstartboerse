@@ -63,6 +63,7 @@ class JobFairForm
                                     Grid::make()->columns(3)->schema([
                                         TextInput::make('name')
                                             ->label('Name')
+                                            ->required()
                                             ->columnSpanFull(),
 
                                         TextInput::make('street')
