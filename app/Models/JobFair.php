@@ -38,6 +38,7 @@ class JobFair extends Model
 
     /**
      * @return array{
+     *     is_public: 'boolean',
      *     attachments: 'AsCollection::of(Attachment::class)',
      *     lounge_files_students: 'array',
      *     lounge_files_exhibitors: 'array'
@@ -46,6 +47,7 @@ class JobFair extends Model
     protected function casts(): array
     {
         return [
+            'is_public' => 'boolean',
             'attachments' => AsCollection::of([Attachment::class, 'fromArray']),
             'lounge_files_students' => 'array',
             'lounge_files_exhibitors' => 'array',

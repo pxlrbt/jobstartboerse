@@ -2,6 +2,7 @@
 
 namespace App\Filament\Panels\Admin\Resources\Exhibitors\RelationManagers;
 
+use App\Models\SchoolRegistration;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -22,6 +23,9 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\ExportAction;
+use pxlrbt\FilamentExcel\Columns\Column;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class SchoolRegistrationsRelationManager extends RelationManager
 {
@@ -124,6 +128,51 @@ class SchoolRegistrationsRelationManager extends RelationManager
                 TrashedFilter::make(),
             ])
             ->headerActions([
+                ExportAction::make()
+                    ->color('gray')
+                    ->exports([
+                        ExcelExport::make()
+                            ->fromModel()
+                            ->except(['id', 'job_fair_id', 'created_at', 'updated_at', 'deleted_at'])
+                            ->withColumns(function ($records) {
+                                $maxClassesCount = $this->getTableQueryForExport()
+                                    ->withCount('classes')
+                                    ->get()
+                                    ->max('classes_count');
+
+                                $classColumns = collect(range(0, $maxClassesCount - 1))
+                                    ->map(fn ($i) => Column::make('class_'.$i)
+                                        ->heading('Klasse '.$i + 1)
+                                        ->getStateUsing(function (SchoolRegistration $record) use ($i) {
+                                            $class = $record->classes->get($i);
+
+                                            if (! $class) {
+                                                return null;
+                                            }
+
+                                            return "{$class->name} ({$class->students_count} um {$class->time})";
+                                        })
+                                    );
+
+                                return [
+                                    Column::make('school_name')->heading('Schule'),
+                                    Column::make('school_type')->heading('Schulart'),
+                                    Column::make('school_zipcode')->heading('PLZ'),
+                                    Column::make('school_city')->heading('Ort'),
+                                    Column::make('teacher')->heading('Lehrer'),
+                                    Column::make('teacher_email')->heading('Lehrer E-Mail'),
+                                    Column::make('teacher_phone')->heading('Lehrer Telefon'),
+                                    Column::make('students_count')
+                                        ->heading('Anzahl Schüler')
+                                        ->getStateUsing(function (SchoolRegistration $record) {
+                                            return $record->classes->sum('students_count');
+                                        }),
+
+                                    ...$classColumns,
+                                ];
+                            }),
+                    ]),
+
                 CreateAction::make(),
             ])
             ->recordActions([

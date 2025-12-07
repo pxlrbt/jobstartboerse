@@ -9,6 +9,13 @@ class ExhibitorRegistration extends Pivot
 {
     protected $table = 'exhibitor_job_fair';
 
+    protected function casts(): array
+    {
+        return [
+            'needs_power' => 'boolean',
+        ];
+    }
+
     /**
      * @return Attribute<bool, never>
      */

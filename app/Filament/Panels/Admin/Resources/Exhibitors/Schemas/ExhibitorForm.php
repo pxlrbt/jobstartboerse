@@ -133,6 +133,7 @@ class ExhibitorForm
                         Section::make('Beschreibung')
                             ->schema([
                                 RichEditor::make('description')
+                                    ->label('Firmenbeschreibung')
                                     ->hiddenLabel()
                                     ->toolbarButtons(['bold', 'italic', 'underline']),
                             ]),
@@ -144,6 +145,7 @@ class ExhibitorForm
                             Section::make('Interne Notiz')
                                 ->schema([
                                     RichEditor::make('internal_note')
+                                        ->label('Interne Notiz')
                                         ->hiddenLabel()
                                         ->toolbarButtons(['bold', 'italic', 'underline']),
                                 ]),

@@ -15,7 +15,7 @@ class ContactPersonColumn
             ->formatStateUsing(function (Exhibitor $record) {
                 return new HtmlString(<<<HTML
                             <div style="line-height: 1.2">
-                                {$record->contactPerson->last_name}<br>
+                                {$record->contactPerson->full_name}<br>
                                 <small>
                                     <a href="mailto:{$record->contactPerson->email}">
                                         {$record->contactPerson->email}

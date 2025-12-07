@@ -4,6 +4,7 @@ namespace App\Filament\Panels\Admin\Resources\JobFairs\RelationManagers;
 
 use App\Filament\Columns\ContactPersonColumn;
 use App\Filament\Columns\ExhibitorNameColumn;
+use App\Filament\Panels\Admin\Resources\Exhibitors\ExhibitorResource;
 use Filament\Actions\Action;
 use Filament\Actions\AttachAction;
 use Filament\Actions\BulkActionGroup;
@@ -21,6 +22,9 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
+use pxlrbt\FilamentExcel\Actions\ExportAction;
+use pxlrbt\FilamentExcel\Columns\Column;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class ExhibitorsRelationManager extends RelationManager
 {
@@ -57,8 +61,9 @@ class ExhibitorsRelationManager extends RelationManager
                 ExhibitorNameColumn::make(),
                 ContactPersonColumn::make(),
 
-                TextColumn::make('stall_number')
-                    ->label('Standnummer'),
+                TextColumn::make('pivot.stall_number')
+                    ->label('Standnummer')
+                    ->numeric(),
 
                 IconColumn::make('pivot.needs_power')
                     ->label('Strom')
@@ -79,6 +84,30 @@ class ExhibitorsRelationManager extends RelationManager
             ])
 
             ->headerActions([
+                ExportAction::make()
+                    ->color('gray')
+                    ->exports([
+                        ExcelExport::make()
+                            ->useTableQuery()
+                            ->withColumns([
+                                Column::make('exhibitor_id')->heading('Aussteller Nr.'),
+                                Column::make('display_name')->heading('Aussteller'),
+                                Column::make('contactPerson.full_name')->heading('Ansprechpartner'),
+                                Column::make('contactPerson.email')->heading('Ansprechpartner: E-Mail'),
+                                Column::make('contactPerson.phone')->heading('Ansprechpartner: Telefon'),
+
+                                Column::make('pivot_stall_number')->heading('Standnummer'),
+                                Column::make('pivot_needs_power'),
+                                // ->heading('Strom')
+                                // ->formatStateUsing(fn ($state) => $state ? 'Ja' : 'Nein'),
+
+                                Column::make('pivot_internal_note')->heading('Interne Notiz'),
+                                Column::make('exhibitor_url')
+                                    ->heading('Aussteller URL')
+                                    ->getStateUsing(fn ($record) => ExhibitorResource::getUrl('edit', ['record' => $record->exhibitor_id])),
+                            ]),
+                    ]),
+
                 AttachAction::make()
                     ->schema(fn (AttachAction $action) => [
                         $action->getRecordSelect(),
