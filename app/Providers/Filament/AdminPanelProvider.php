@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login;
 use Filafly\Icons\Phosphor\PhosphorIcons;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -12,6 +13,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Tables\Table;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -26,6 +28,15 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        Table::configureUsing(fn (Table $table) => $table
+            ->paginationPageOptions([25, 50, 100])
+            ->defaultPaginationPageOption(50)
+            ->modifyUngroupedRecordActionsUsing(fn (Action $action) => $action
+                ->iconButton()
+                ->tooltip(fn (Action $action) => $action->getLabel())
+            )
+        );
+
         return $panel
             ->default()
             ->id('admin')
