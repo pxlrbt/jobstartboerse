@@ -2,8 +2,8 @@
 
 namespace Database\States;
 
+use App\Enums\Role;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class UserState
 {
@@ -11,9 +11,11 @@ class UserState
     {
         if (! User::query()->where('email', 'dennis.koch@bluedom.ch')->exists()) {
             User::create([
-                'name' => 'Dennis',
+                'name' => 'Dennis Koch',
                 'email' => 'dennis.koch@bluedom.ch',
-                'password' => Hash::make('vNULVCyBG3DLCZDjMQtQ37JkGYfM6DyBiKznV67L'),
+                'role' => Role::Admin,
+                'password' => '$2y$12$n2M9BZF0E70JULXymFWDC.XZcPazYzMECMbLh4tL2Od6tJvYfQDZK',
+                'email_verified_at' => now(),
             ]);
         }
     }
