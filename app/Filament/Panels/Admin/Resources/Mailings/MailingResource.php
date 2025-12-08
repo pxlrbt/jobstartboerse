@@ -48,6 +48,12 @@ class MailingResource extends Resource
                     ->label('Betreff')
                     ->searchable(),
 
+                TextColumn::make('exhibitors_count')
+                    ->label('Empfänger')
+                    ->badge()
+                    ->counts('exhibitors')
+                    ->sortable(),
+
                 TextColumn::make('created_at')
                     ->label('Versendet am')
                     ->date()
