@@ -101,16 +101,6 @@ class SurveyResource extends Resource
 
                                 Select::make('type')
                                     ->label('Typ')
-                                    ->disabled(function ($livewire) {
-                                        if ($livewire instanceof CreateSurvey) {
-                                            return false;
-                                        }
-
-                                        /** @var Survey $record */
-                                        $record = $livewire->getRecord();
-
-                                        return $record->submissions()->exists();
-                                    })
                                     ->enum(SurveyQuestionType::class)
                                     ->options(SurveyQuestionType::class)
 

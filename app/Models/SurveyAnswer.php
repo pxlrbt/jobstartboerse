@@ -42,6 +42,12 @@ class SurveyAnswer extends Model
 
             return match ($questionType) {
                 SurveyQuestionType::Toggle => $this->content ? 'Ja' : 'Nein',
+                SurveyQuestionType::Rating => match ((int) $this->content) {
+                    1 => 'Sehr Gut',
+                    2 => 'Gut',
+                    3 => 'Zufriedenstellend',
+                    4 => 'Nicht zufriedenstellend',
+                },
                 default => $this->content
             };
         });

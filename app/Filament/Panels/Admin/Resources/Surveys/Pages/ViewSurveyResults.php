@@ -70,7 +70,7 @@ class ViewSurveyResults extends ViewRecord
                 ->components([
                     RepeatableEntry::make('answers')
                         ->hiddenLabel()
-                        ->state($question->answers)
+                        ->state($question->answers->filter(fn ($answer) => filled($answer->content)))
                         ->components([
                             TextEntry::make('content')->hiddenLabel(),
                         ]),

@@ -2,17 +2,13 @@
 
 namespace App\Filament\Panels\Exhibitor\Resources\Surveys\Pages;
 
-use App\Enums\SurveyQuestionType;
+use App\Actions\GetFilamentComponentForSurveyQuestion;
 use App\Filament\Panels\Exhibitor\Resources\Surveys\SurveyResource;
 use App\Models\Survey;
 use App\Models\SurveyAnswer;
-use App\Models\SurveyQuestion;
 use App\Models\SurveySubmission;
 use Filament\Actions\Action;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\ToggleButtons;
 use Filament\Resources\Pages\EditRecord;
-use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
 
@@ -50,55 +46,13 @@ class ParticipateSurvey extends EditRecord
     {
         /** @var Survey $record */
         $record = $this->record;
+        $getComponent = resolve(GetFilamentComponentForSurveyQuestion::class);
 
         return $schema
             ->columns(1)
             ->components(
-                collect($record->questions->map($this->getComponentForQuestion(...)))->toArray(),
+                collect($record->questions->map($getComponent(...)))->toArray(),
             );
-    }
-
-    protected function getComponentForQuestion(SurveyQuestion $question): Component
-    {
-        if ($question->type === SurveyQuestionType::SingleChoice) {
-            return ToggleButtons::make((string) $question->id)
-                ->label($question->display_name)
-                ->options($question->options)
-                ->required();
-        }
-
-        if ($question->type === SurveyQuestionType::MultipleChoice) {
-            return ToggleButtons::make((string) $question->id)
-                ->label($question->display_name)
-                ->multiple()
-                ->options($question->options)
-                ->required();
-        }
-
-        if ($question->type === SurveyQuestionType::Toggle) {
-            return ToggleButtons::make((string) $question->id)
-                ->label($question->display_name)
-                ->boolean()
-                // ->options([
-                //     1 => 'Ja',
-                //     0 => 'Nein',
-                // ])
-                ->required();
-        }
-
-        if ($question->type === SurveyQuestionType::Rating) {
-            return ToggleButtons::make((string) $question->id)
-                ->label($question->display_name)
-                ->options([
-                    1 => 'Ja',
-                    0 => 'Nein',
-                ])
-                ->required();
-        }
-
-        return TextInput::make((string) $question->id)
-            ->label($question->display_name)
-            ->required();
     }
 
     public function save(bool $shouldRedirect = true, bool $shouldSendSavedNotification = true): void

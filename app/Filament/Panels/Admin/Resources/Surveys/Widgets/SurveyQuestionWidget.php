@@ -26,7 +26,10 @@ class SurveyQuestionWidget extends ChartWidget
     {
         $this->question->loadMissing('answers');
 
-        $answers = $this->question->answers->groupBy('textContent');
+        $answers = $this->question->answers
+            ->sortBy('content')
+            ->groupBy('textContent');
+
         $answers = $answers->map(fn ($answer) => $answer->count());
 
         $values = $answers->values();
