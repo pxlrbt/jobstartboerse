@@ -12,8 +12,6 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
-use pxlrbt\FilamentExcel\Actions\ExportAction;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class ExhibitorsTable
 {
@@ -34,14 +32,6 @@ class ExhibitorsTable
                 EditAction::make(),
             ])
             ->toolbarActions([
-                ExportAction::make()
-                    ->color('gray')
-                    ->exports([
-                        ExcelExport::make()
-                            ->fromForm()
-                            ->except(['logo_file']),
-                    ]),
-
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                     RestoreBulkAction::make(),
