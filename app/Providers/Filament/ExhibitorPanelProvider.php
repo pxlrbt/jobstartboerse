@@ -2,16 +2,21 @@
 
 namespace App\Providers\Filament;
 
+use App\Enums\Role;
+use App\Filament\Enums\NavigationGroup;
 use App\Filament\Pages\Login;
 use App\Filament\Panels\Exhibitor\RelationManagers\DegreeRelationManager;
 use App\Filament\Panels\Exhibitor\RelationManagers\JobStartRelationManager;
 use App\Filament\Panels\Exhibitor\RelationManagers\ProfessionRelationManager;
 use App\Models\Exhibitor;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filafly\Icons\Phosphor\PhosphorIcons;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -53,7 +58,21 @@ class ExhibitorPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->sidebarCollapsibleOnDesktop()
+
+            ->navigationItems([
+                NavigationItem::make('exhibitor_panel')
+                    ->label('Admin-Bereich')
+                    ->group(NavigationGroup::Links)
+                    ->icon(Phosphor::SignInDuotone)
+                    ->url(function () {
+                        Filament::setCurrentPanel('admin');
+                        $url = Filament::getUrl();
+                        Filament::setCurrentPanel('exhibitor');
+
+                        return $url;
+                    })
+                    ->visible(fn () => auth()->user()->role === Role::Admin),
+            ])
 
             ->discoverResources(in: app_path('Filament/Panels/Exhibitor/Resources'), for: 'App\Filament\Panels\Exhibitor\Resources')
             ->discoverPages(in: app_path('Filament/Panels/Exhibitor/Pages'), for: 'App\Filament\Panels\Exhibitor\Pages')

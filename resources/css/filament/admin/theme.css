@@ -3,6 +3,16 @@
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
 
+/* RichEditor min-height */
 .fi-fo-rich-editor .tiptap {
     min-height: 7lh;
+}
+
+/* Do not stretch vertical tabs */
+.fi-sc-tabs.fi-vertical {
+    align-items: start;
+}
+
+.fi-tabs:not(.fi-contained) {
+    margin-inline: 0;
 }

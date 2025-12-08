@@ -10,6 +10,7 @@ enum NavigationGroup implements HasLabel
     case Functions;
 
     case Profiles;
+    case Links;
 
     public function getLabel(): string
     {
@@ -17,6 +18,7 @@ enum NavigationGroup implements HasLabel
             self::Data => 'Stammdaten',
             self::Functions => 'Funktionen',
             self::Profiles => 'Profile',
+            self::Links => 'Links',
         };
     }
 }

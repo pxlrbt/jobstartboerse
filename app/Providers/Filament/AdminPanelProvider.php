@@ -2,19 +2,22 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Enums\NavigationGroup;
 use App\Filament\Pages\Login;
+use Filafly\Icons\Phosphor\Enums\Phosphor;
 use Filafly\Icons\Phosphor\PhosphorIcons;
 use Filament\Actions\Action;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Tables\Table;
-use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -51,7 +54,21 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->sidebarCollapsibleOnDesktop()
+
+            ->navigationItems([
+                NavigationItem::make('exhibitor_panel')
+                    ->label('Aussteller-Bereich')
+                    ->group(NavigationGroup::Links)
+                    ->icon(Phosphor::SignInDuotone)
+                    ->url(function () {
+                        Filament::setCurrentPanel('exhibitor');
+                        $url = Filament::getUrl(tenant: auth()->user()->exhibitors->first());
+                        Filament::setCurrentPanel('admin');
+
+                        return $url;
+                    })
+                    ->visible(fn () => auth()->user()->exhibitors->isNotEmpty()),
+            ])
 
             ->discoverResources(in: app_path('Filament/Panels/Admin/Resources'), for: 'App\Filament\Panels\Admin\Resources')
             ->discoverPages(in: app_path('Filament/Panels/Admin/Pages'), for: 'App\Filament\Panels\Admin\Pages')
@@ -77,19 +94,6 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugin(EnvironmentIndicatorPlugin::make())
-            ->plugin(PhosphorIcons::make()->style('duotone'))
-            ->renderHook(
-                PanelsRenderHook::BODY_END,
-                fn () => <<<'HTML'
-                    <style>
-                        .fi-sc-tabs.fi-vertical {
-                            align-items: start;
-                        }
-
-                        .fi-tabs:not(.fi-contained) {
-                            margin-inline: 0;
-                        }
-                    </style>
-                HTML);
+            ->plugin(PhosphorIcons::make()->style('duotone'));
     }
 }
