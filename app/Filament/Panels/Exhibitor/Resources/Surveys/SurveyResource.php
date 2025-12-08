@@ -59,6 +59,7 @@ class SurveyResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->whereValueBetween(now(), ['starts_at', 'ends_at'])
             ->whereDoesntHave(
                 'submissions',
                 fn (Builder $query) => $query->where('exhibitor_id', filament()->getTenant()->id)
